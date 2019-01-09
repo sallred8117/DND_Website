@@ -5,7 +5,7 @@
  * Date: 1/9/2019
  * Time: 9:16 AM
  */
-require "./Library/DBHelper.php";
+require "../Library/DBHelper.php";
 $DB = new DBHelper();
 ?>
 <!DOCTYPE html>
@@ -20,12 +20,11 @@ $DB = new DBHelper();
 <body>
 
 <!-- Whole Page -->
-<div class="container-fluid bg-primary">
+<div class="container-fluid bg-white">
     <div class="container bg-white">
         <h1>Data Entry</h1>
         <hr>
-        <div class="row">
-            <div class="col">
+        <div class="row" style="padding-bottom: 15px;">
                 Table <select id="ddlTable">
                     <?php
                     $tables = $DB->GET_ALL_TABLES();
@@ -35,17 +34,10 @@ $DB = new DBHelper();
                         echo "<option value='$table'>$table</option>";
                     }
                     ?></select>
-            </div>
         </div>
         <!-- Datatable -->
-        <div class="row">
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                <tr>
-                    
-                </tr>
-                </thead>
-            </table>
+        <div class="row" id="tablediv" style="padding-bottom: 15px;">
+            <table id="dtable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%"></table>
         </div>
     </div>
 </div>
@@ -64,50 +56,77 @@ $DB = new DBHelper();
 <script>
     $(document).ready(function() {
         // Load the data table
-        $('#example').DataTable();
+        getTable();
     });
 
     // WHen the table is changed, load the data table
     $("#ddlTable").change(function(){
-        console.log("Hey");
+        // Destroy table
+        var table = $("#dtable").DataTable();
+        table.destroy();
+        $("#dtable").empty();
+
+        // Recreate element
+        /*var div = document.getElementsByTagName('tablediv')[0];
+        var tbl = document.createElement('table');
+        tbl.id = "dtable";
+        tbl.className = "table table-striped table-bordered";*/
+
+        // Load the data table
+        getTable();
     });
 
     // Used to show the datatable
-    function showTable() {
+    function showTable(rows, cols)
+    {
+        var array = [];
+
+        for (var i = 0; i < cols.length; i++)
+        {
+            array.push({title: cols[i], data: cols[i]});
+        }
+        console.log(rows);
+        console.log(array);
+
         // Creating data table and defining its properties
-        var table = $('#dataTable').DataTable({
+        var dtable = $('#dtable').DataTable({
             "processing": true,
             "serverside": true,
             "lengthMenu": [20, 40, 60, 80, 100],
             "destroy": true,
-
-            // Displaying loading gif
-            "language": {
-                "processing": "<figure id='figLoad'>" +
-                "<img src='../../EmployeeManager/Forms/LoadingGifs/loading-gif-1.gif' style='width: 50%; height: 50%;'><figcaption>Loading</figcaption></figure>"
-            },
-
+            scrollX: true,
             "initComplete": function () {
                 console.log("Table done loading...");
             },
+            data: rows,
+            columns: array
+        });
+    }
 
-            // Getting select statement
-            ajax:
+    function getTable()
+    {
+        var table = $("#ddlTable").val();
+
+        $.ajax({
+            method: "post",
+            url: "./table_processing.php",
+            data: {tableName: table},
+            success:function(data)
+            {
+                var rows = JSON.parse(data);
+                var cols;
+
+                if (rows === undefined || rows.length === 0) {
+                    // array empty or does not exist
+                    alert("The table: " + table + ", did not return anything. Might be empty.")
+                }
+
+                else
                 {
-                    url: "../Master/Server_Scripts/ManageEmployeesManager.php?getDataTable=" + true,
-                },
-
-            columns: [
-                {data: 'id'},
-                {data: 'first_name'},
-                {data: 'last_name'},
-                {data: 'gender'},
-                {data: 'hire_date'},
-                {data: 'employee_number'},
-                {data: 'admin'},
-                {data: 'title'},
-                {data: 'street_address'}
-            ]
+                    cols = Object.keys(rows[0]);
+                    showTable(rows, cols);
+                }
+            }
         });
     }
 </script>

@@ -179,7 +179,8 @@ class DBHelper
 
     function SELECT_ALL($table)
     {
-        $conn = $this->getMysqliConnection($dbname);
+        $conn = $this->getMysqliConnection();
+        $data = array();
 
         // Check connection
         if ($conn->connect_error) {
@@ -195,7 +196,7 @@ class DBHelper
             // output data of each row, there is only one though
             while($row = $result->fetch_assoc())
             {
-                $data = $row;
+                array_push($data, $row);
             }
         }
         $conn->close();
