@@ -35,9 +35,49 @@ $DB = new DBHelper();
                     }
                     ?></select>
         </div>
-        <!-- Datatable -->
+        <!-- Show it as a list -->
+        <div class="row" id="listdiv">
+            <div class="container-fluid" id="main">
+                <div class="d-flex justify-content-between">
+                    <div><button class="btn btn-secondary disabled" onclick="previousItem()" id="previous">Previous</button></div>
+                    <div><button class="btn btn-primary" onclick="nextItem()" id="next">Next</button></div>
+                </div>
+                <br>
+                <form id="list">
+                    <!--<div class="form-group">
+                        <label for="exampleFormControlInput1">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Example select</label>
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect2">Example multiple select</label>
+                        <select multiple class="form-control" id="exampleFormControlSelect2">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Example textarea</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>-->
+                </form>
+            </div>
+        </div>
+        <!-- Data table -->
         <div class="row" id="tablediv" style="padding-bottom: 15px;">
-            <table id="dtable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%"></table>
+            <table id="dtable" class="table table-striped table-bordered" style="width:100%"></table>
         </div>
     </div>
 </div>
@@ -54,17 +94,29 @@ $DB = new DBHelper();
 <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 
 <script>
+    var count = 0;
+    var position = 0;
+    var rows = [];
+    var cols = [];
+
     $(document).ready(function() {
         // Load the data table
-        getTable();
+        //getTable();
+        getList();
     });
 
     // WHen the table is changed, load the data table
     $("#ddlTable").change(function(){
-        // Destroy table
-        var table = $("#dtable").DataTable();
-        table.destroy();
-        $("#dtable").empty();
+
+        $.ajax({
+            method: "post",
+            url: "./table_processing.php",
+            data: {tableName: table},
+            success:function(data)
+            {
+                var max =  JSON.parse(data);
+            }
+        });
 
         // Recreate element
         /*var div = document.getElementsByTagName('tablediv')[0];
@@ -73,7 +125,17 @@ $DB = new DBHelper();
         tbl.className = "table table-striped table-bordered";*/
 
         // Load the data table
-        getTable();
+        //getTable();
+        $("#list").empty();
+        rows = [];
+        cols = [];
+        position = 0;
+        if(position === 0)
+        {
+            var element = document.getElementById("previous");
+            element.classList.add("disabled");
+        }
+        getList();
     });
 
     // Used to show the datatable
@@ -83,7 +145,7 @@ $DB = new DBHelper();
 
         for (var i = 0; i < cols.length; i++)
         {
-            array.push({title: cols[i], data: cols[i]});
+            array.push({title: cols[i], data: cols[i], defaultContent: '<a href="" class="editor_edit">Edit</a> / <a href="" class="editor_remove">Delete</a>'});
         }
         console.log(rows);
         console.log(array);
@@ -97,6 +159,7 @@ $DB = new DBHelper();
             scrollX: true,
             "initComplete": function () {
                 console.log("Table done loading...");
+                count++;
             },
             data: rows,
             columns: array
@@ -123,11 +186,103 @@ $DB = new DBHelper();
 
                 else
                 {
+                    if(count !== 0)
+                    {
+                        // Destroy table
+                        var table = $("#dtable").DataTable();
+                        table.destroy();
+                        $("#dtable").empty();
+                    }
+
                     cols = Object.keys(rows[0]);
                     showTable(rows, cols);
                 }
             }
         });
+    }
+
+    function getList()
+    {
+        var table = $("#ddlTable").val();
+
+        $.ajax({
+            method: "post",
+            url: "./table_processing.php",
+            data: {tableName: table},
+            success:function(data)
+            {
+                rows = JSON.parse(data);
+
+                if (rows === undefined || rows.length === 0) {
+                    // array empty or does not exist
+                    alert("The table: " + table + ", did not return anything. Might be empty.")
+                }
+
+                else
+                {
+                    cols = Object.keys(rows[0]);
+                    console.log(rows);
+                    console.log(cols);
+
+                    if(count !== 0)
+                    {
+                        // Destroy list
+                        showItem();
+                    }
+
+                    else
+                    {
+                        showItem();
+                        count++;
+                    }
+                }
+            }
+        });
+    }
+
+    function showItem()
+    {
+        console.log(rows);
+        console.log(cols);
+        $.ajax({
+            method: "post",
+            url: "./list_processing.php",
+            data: {rows: rows[position], cols: cols},
+            success:function(data)
+            {
+                console.log(data);
+                $("#list").append(data);
+            }
+        });
+    }
+
+    function nextItem()
+    {
+        position++;
+
+        if(position !== 0)
+        {
+            var element = document.getElementById("previous");
+            element.classList.remove("disabled");
+            $("#list").empty();
+            showItem();
+        }
+    }
+
+    function previousItem()
+    {
+        if(position === 0)
+        {
+            var element = document.getElementById("previous");
+            element.classList.add("disabled");
+        }
+
+        else
+        {
+            position--;
+            $("#list").empty();
+            showItem();
+        }
     }
 </script>
 </body>
