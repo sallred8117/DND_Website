@@ -108,13 +108,16 @@ $DB = new DBHelper();
     // WHen the table is changed, load the data table
     $("#ddlTable").change(function(){
 
+		var table = document.getElementById("ddlTable").value
         $.ajax({
             method: "post",
             url: "./table_processing.php",
             data: {tableName: table},
             success:function(data)
             {
+				console.log(data);
                 var max =  JSON.parse(data);
+				
             }
         });
 
@@ -176,6 +179,7 @@ $DB = new DBHelper();
             data: {tableName: table},
             success:function(data)
             {
+				
                 var rows = JSON.parse(data);
                 var cols;
 
@@ -211,6 +215,7 @@ $DB = new DBHelper();
             data: {tableName: table},
             success:function(data)
             {
+				console.log(data);
                 rows = JSON.parse(data);
 
                 if (rows === undefined || rows.length === 0) {

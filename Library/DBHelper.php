@@ -190,7 +190,30 @@ class DBHelper
         $sql = "SELECT * FROM $table";
 
         $result = $conn->query($sql);
+        if ($result->num_rows > 0)
+        {
+            // output data of each row, there is only one though
+            while($row = $result->fetch_assoc())
+            {
+                array_push($data, $row);
+            }
+        }
+        $conn->close();
+        return $data;
+    }
+	function SELECT_ONE_ITEM_FROM_TABLE($table)
+    {
+        $conn = $this->getMysqliConnection();
+        $data = array();
 
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM $table ORDER BY RAND() LIMIT 1";
+        $result = $conn->query($sql);
+		
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though

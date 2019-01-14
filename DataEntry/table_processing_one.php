@@ -15,11 +15,9 @@ if(isset($_POST["tableName"]))
     $DB = new DBHelper();
 
     // Getting rows from table
-    $rows = $DB->SELECT_ALL($tableName);
-	//var_dump($rows);
-	//$test = json_encode($rows);
-    //var_dump($test);
-	echo json_encode($rows);
+    $rows = $DB->SELECT_ONE_ITEM_FROM_TABLE($tableName);
+	//echo $rows;
+    echo json_encode($rows);
 }
 
 else
