@@ -178,7 +178,7 @@ $DB = new DBHelper();
 	{
 		if(type == "Standard Chest")
 		{
-			var dist = {Money: 60, MagicItem: 10, Trinket: 20, Gear: 7.5, FoodNDrink: 2.5};
+			var dist = {Money: 99, MagicItem: 10, Trinket: 20, Gear: 7.5, FoodNDrink: 2.5};
 			console.log("Using " + type + " distribution : " + "60,10,20,7.5,2.5");
 		}
 		return dist;
@@ -228,357 +228,402 @@ $DB = new DBHelper();
 		 // Load the data table
         //getTable();
        // getList();
-	  
-	   var dbInTheChest = inChest();
-	   //console.log(dbInTheChest);
-	   
-	   for(var property in dbInTheChest)
+	   var TABLE = document.getElementById("dtable");
+	   while(TABLE.rows.length > 0) 
 	   {
-		   console.log(dbInTheChest[property]);
-		  
-		   if(property == "Money" && dbInTheChest[property] == "1")
-		   {
-			    var CR = document.getElementById("ddlTableCR").value;
-			    if(CR == "0" || CR == "1/8" || CR == "1/4" || CR == "1/2" || CR == "1" || CR == "2" || CR == "3" || CR == "4")
-				{
-					var quality = rollRandom("d100");
-					console.log("Quality: " + quality);
-					if(quality <= 30)
-					{
-					   var value = 0;
-					   for(var i = 0; i < 5; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   $("body").append(value + " CP");
-					   //Q30 :CP
-					}
-					else if (quality >= 31 && quality <= 60)
-				    {
-					   var value = 0;
-					   for(var i = 0; i < 4; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   $("body").append(value + " SP");
-					   //SP
-				    }
-					 else if (quality >= 61 && quality <= 70)
-					 {
-					   var value = 0;
-					   for(var i = 0; i < 3; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   $("body").append(value + " EP");
-					 }
-					 else if (quality >= 71 && quality <= 95)
-					 {
-						var value = 0;
-					   for(var i = 0; i < 3; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   $("body").append(value + " GP");
-					 }
-					 else if (quality >= 96 && quality <= 100)
-					 {
-						   value += rollRandom("d6");
-						   $("body").append(value + " PP");
-					 }
-					   
-				}
-				if(CR == "5" || CR == "6" || CR == "7" || CR == "8" || CR == "9" || CR == "10")
-				{
-					var quality = rollRandom("d100");
-					console.log("Quality: " + quality);
-					if(quality <= 30)
-					{
-					   var value = 0;
-					   for(var i = 0; i < 4; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-						value = value * 100;
-					   $("body").append(value + " CP");
-					   //CP
-					   value = 0;
-					   value = rollRandom("d6") * 10;
-					   $("body").append(value + " EP");
-					   //EP
-					}
-					else if (quality >= 31 && quality <= 60)
-				    {
-					   var value = 0;
-					   for(var i = 0; i < 6; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   value = value * 10;
-					   $("body").append(value + " SP");
-					   //SP
-					   
-					   value = 0;
-					   for(var i = 0; i < 2; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   value = value * 10;
-					   $("body").append(value + " GP");
-					   //GP
-				    }
-					 else if (quality >= 61 && quality <= 70)
-					 {
-					   
-					   var value = 0;
-					   for(var i = 0; i < 3; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   value = value * 10;
-					   $("body").append(value + " EP");
-					   //EP
-					   
-					   value = 0;
-					   for(var i = 0; i < 2; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   value = value * 10;
-					    $("body").append(value + " GP");
-					   //GP
-					 }
-					 else if (quality >= 71 && quality <= 95)
-					 {
-					   var value = 0;
-					   for(var i = 0; i < 4; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   value = value * 10;
-					   $("body").append(value + " GP");
-					   //GP
-					 }
-					 else if (quality >= 96 && quality <= 100)
-					 {
-					   var value = 0;
-					   for(var i = 0; i < 2; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   value = value * 10;
-					   $("body").append(value + " GP");
-					   //GP
-					   value = 0;
-					   for(var i = 0; i < 3; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   $("body").append(value + " PP");
-					 }
-				}
-				if(CR == "11" || CR == "12" || CR == "13" || CR == "14" || CR == "15" || CR == "16")
-				{
-					var quality = rollRandom("d100");
-					console.log("Quality: " + quality);
-					if(quality <= 20)
-					{
-					   var value = 0;
-					   for(var i = 0; i < 4; i++)
-					   {
-						   value += rollRandom("d6");
-					   }
-					   value = value * 100;
-					   $("body").append(value + " SP");
-					   //SP
-					   value = 0;
-					   value = rollRandom("d6");
-					   value = value * 100;
-					   $("body").append(value + " GP");
-					   //GP
-					}
-					if(quality >= 21 && quality <= 35)
-					{
-						var value = 0;
-						value = rollRandom("d6");
-						value = value * 100;
-						$("body").append(value + " EP");
-						//EP
-						value = 0;
-						value = rollRandom("d6");
-						value = value * 100;
-						$("body").append(value + " GP");
-						//GP
-					}
-					if(quality >= 36 && quality <= 75)
-					{
-						var value = 0;
-						for(var i = 0; i < 2; i++)
-						{
-						   value += rollRandom("d6");
-						}
-						value = value * 100;
-						$("body").append(value + " GP");
-						//GP
-						value = 0;
-						value = rollRandom("d6");
-						value = value * 10;
-						$("body").append(value + " PP");
-						//PP
-					}
-					if(quality >= 76 && quality <= 100)
-					{
-						var value = 0;
-						for(var i = 0; i < 2; i++)
-						{
-						   value += rollRandom("d6");
-						}
-						value = value * 100;
-						$("body").append(value + " GP");
-						//GP
-						value = 0;
-						for(var i = 0; i < 2; i++)
-						{
-						   value += rollRandom("d6");
-						}
-						value = value * 10;
-						$("body").append(value + " PP");
-						//PP
-					}
-				}
-				if(CR == "17" || CR == "18" || CR == "19" || CR == "20" || CR == "21+")
-				{
-					var quality = rollRandom("d100");
-					console.log("Quality: " + quality);
-					if(quality <= 15)
-					{
-						var value = 0;
-						for(var i = 0; i < 2; i++)
-						{
-						   value += rollRandom("d6");
-						}
-						value = value * 1000;
-						$("body").append(value + " EP");
-						//EP
-						value = 0;
-						for(var i = 0; i < 8; i++)
-						{
-						   value += rollRandom("d6");
-						}
-						value = value * 100;
-						$("body").append(value + " GP");
-						//GP
-					}
-					if(quality >= 16 && quality <= 55)
-					{
-						var value = 0;
-						
-						value = rollRandom("d6");
-						
-						value = value * 1000;
-						$("body").append(value + " GP");
-						//GP
-						value = 0;
-						
-						value = rollRandom("d6");
-						
-						value = value * 100;
-						$("body").append(value + " PP");
-						//PP
-					}
-					if(quality >= 56 && quality <= 100)
-					{
-						var value = 0;
-						
-						value = rollRandom("d6");
-						
-						value = value * 1000;
-						$("body").append(value + " GP");
-						//GP
-						value = 0;
-						
-						for(var i = 0; i < 2; i++)
-						{
-						   value += rollRandom("d6");
-						}
-						
-						value = value * 100;
-						$("body").append(value + " PP");
-						//PP
-					}
-				}
-		    
-		   }
-		   if(property == "MagicItem" && dbInTheChest[property] == "1")
-		   {
-			   $.ajax({
-				method: "post",
-				url: "./table_processing_one.php",
-				data: {tableName: "magic_items"},
-				success:function(data)
-				{
-					var max =  JSON.parse(data);
-					var TEST = max[0].Name + ",";
-					$("body").append(TEST);
-				}
-			});
-		   }
-		   if(property == "Trinket" && dbInTheChest[property] == "1")
-		   {
-			    $.ajax({
-				method: "post",
-				url: "./table_processing_one.php",
-				data: {tableName: "trinkets"},
-				success:function(data)
-				{
-					var max =  JSON.parse(data);
-					if(max[0].Name == "")
-					{
-						var TEST = max[0].description + ",";
-						$("body").append(TEST);
-					}
-					else
-					{
-						var TEST = max[0].Name + ",";
-						$("body").append(TEST);
-					}
-				}
-			}); 
-		   }
-		   if(property == "Gear" && dbInTheChest[property] == "1")
-		   {
-			    $.ajax({
-				method: "post",
-				url: "./table_processing_one.php",
-				data: {tableName: "gear"},
-				success:function(data)
-				{
-					var max =  JSON.parse(data);
-					
-					var TEST = max[0].Name + ",";
-					$("body").append(TEST);
-					
-				}
-			}); 
-		   }
-		   if(property == "FoodNDrink" && dbInTheChest[property] == "1")
-		   {
-			    $.ajax({
-				method: "post",
-				url: "./table_processing_one.php",
-				data: {tableName: "foodndrink"},
-				success:function(data)
-				{
-					var max =  JSON.parse(data);
-					var TEST = max[0].Name + ",";
-					$("body").append(TEST);
-				}
-			}); 
-		   }
-		   
-		  
+			TABLE.deleteRow(0);
 	   }
-	    
+	   for(var i = 0; i < 5; i++)
+	   {
+		   
+		   var ROW = TABLE.insertRow(0);
+		   var cell1 = ROW.insertCell(0);
+		   var cell2 = ROW.insertCell(1);
+		   var dbInTheChest = inChest();
+	       
+	 
+		   for(var property in dbInTheChest)
+		   {
+			   console.log(dbInTheChest[property]);
+			  
+			   if(property == "Money" && dbInTheChest[property] == "1")
+			   {
+					var CR = document.getElementById("ddlTableCR").value;
+					if(CR == "0" || CR == "1/8" || CR == "1/4" || CR == "1/2" || CR == "1" || CR == "2" || CR == "3" || CR == "4")
+					{
+						var quality = rollRandom("d100");
+						console.log("Quality: " + quality);
+						if(quality <= 30)
+						{
+						   var value = 0;
+						   for(var i = 0; i < 5; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   $("body").append(value + " cp ");
+						   cell1.innerHTML += value + " cp, ";
+						   //Q30 :cp
+						}
+						else if (quality >= 31 && quality <= 60)
+						{
+						   var value = 0;
+						   for(var i = 0; i < 4; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   $("body").append(value + " sp ");
+							cell1.innerHTML += value + " sp, ";
+						   //sp
+						}
+						 else if (quality >= 61 && quality <= 70)
+						 {
+						   var value = 0;
+						   for(var i = 0; i < 3; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   $("body").append(value + " ep ");
+						   cell1.innerHTML += value + " ep, ";
+						 }
+						 else if (quality >= 71 && quality <= 95)
+						 {
+							var value = 0;
+						   for(var i = 0; i < 3; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   $("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+						 }
+						 else if (quality >= 96 && quality <= 100)
+						 {
+							   value += rollRandom("d6");
+							   $("body").append(value + " pp ");
+							   cell1.innerHTML += value + " pp, ";
+						 }
+						   
+					}
+					if(CR == "5" || CR == "6" || CR == "7" || CR == "8" || CR == "9" || CR == "10")
+					{
+						var quality = rollRandom("d100");
+						console.log("Quality: " + quality);
+						if(quality <= 30)
+						{
+						   var value = 0;
+						   for(var i = 0; i < 4; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+							value = value * 100;
+						   $("body").append(value + " cp ");
+						   cell1.innerHTML += value + " cp, ";
+						   //cp
+						   value = 0;
+						   value = rollRandom("d6") * 10;
+						   $("body").append(value + " ep ");
+							cell1.innerHTML += value + " ep, ";
+						   //ep
+						}
+						else if (quality >= 31 && quality <= 60)
+						{
+						   var value = 0;
+						   for(var i = 0; i < 6; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   value = value * 10;
+						   $("body").append(value + " sp ");
+						   cell1.innerHTML += value + " sp, ";
+						   //sp
+						   
+						   value = 0;
+						   for(var i = 0; i < 2; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   value = value * 10;
+						   $("body").append(value + " gp ");
+						   cell1.innerHTML += value + " gp, ";
+						   //gp
+						}
+						 else if (quality >= 61 && quality <= 70)
+						 {
+						   
+						   var value = 0;
+						   for(var i = 0; i < 3; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   value = value * 10;
+						   $("body").append(value + " ep ");
+							cell1.innerHTML += value + " ep, ";
+						   //ep
+						   
+						   value = 0;
+						   for(var i = 0; i < 2; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   value = value * 10;
+							$("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+						   //gp
+						 }
+						 else if (quality >= 71 && quality <= 95)
+						 {
+						   var value = 0;
+						   for(var i = 0; i < 4; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   value = value * 10;
+						   $("body").append(value + " gp ");
+						   cell1.innerHTML += value + " gp, ";
+						   //gp
+						 }
+						 else if (quality >= 96 && quality <= 100)
+						 {
+						   var value = 0;
+						   for(var i = 0; i < 2; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   value = value * 10;
+						   $("body").append(value + " gp ");
+						   cell1.innerHTML += value + " gp, ";
+						   //gp
+						   value = 0;
+						   for(var i = 0; i < 3; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   $("body").append(value + " pp ");
+							cell1.innerHTML += value + " pp, ";
+						 }
+					}
+					if(CR == "11" || CR == "12" || CR == "13" || CR == "14" || CR == "15" || CR == "16")
+					{
+						var quality = rollRandom("d100");
+						console.log("Quality: " + quality);
+						if(quality <= 20)
+						{
+						   var value = 0;
+						   for(var i = 0; i < 4; i++)
+						   {
+							   value += rollRandom("d6");
+						   }
+						   value = value * 100;
+						   $("body").append(value + " sp ");
+						   cell1.innerHTML += value + " sp, ";
+						   //sp
+						   value = 0;
+						   value = rollRandom("d6");
+						   value = value * 100;
+						   $("body").append(value + " gp ");
+						   cell1.innerHTML += value + " gp, ";
+						   //gp
+						}
+						if(quality >= 21 && quality <= 35)
+						{
+							var value = 0;
+							value = rollRandom("d6");
+							value = value * 100;
+							$("body").append(value + " ep ");
+							 cell1.innerHTML += value + " ep, ";
+							//ep
+							value = 0;
+							value = rollRandom("d6");
+							value = value * 100;
+							$("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+							//gp
+						}
+						if(quality >= 36 && quality <= 75)
+						{
+							var value = 0;
+							for(var i = 0; i < 2; i++)
+							{
+							   value += rollRandom("d6");
+							}
+							value = value * 100;
+							$("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+							//gp
+							value = 0;
+							value = rollRandom("d6");
+							value = value * 10;
+							$("body").append(value + " pp ");
+							 cell1.innerHTML += value + " pp, ";
+							//pp
+						}
+						if(quality >= 76 && quality <= 100)
+						{
+							var value = 0;
+							for(var i = 0; i < 2; i++)
+							{
+							   value += rollRandom("d6");
+							}
+							value = value * 100;
+							$("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+							//gp
+							value = 0;
+							for(var i = 0; i < 2; i++)
+							{
+							   value += rollRandom("d6");
+							}
+							value = value * 10;
+							$("body").append(value + " pp ");
+							 cell1.innerHTML += value + " pp, ";
+							//pp
+						}
+					}
+					if(CR == "17" || CR == "18" || CR == "19" || CR == "20" || CR == "21+")
+					{
+						var quality = rollRandom("d100");
+						console.log("Quality: " + quality);
+						if(quality <= 15)
+						{
+							var value = 0;
+							for(var i = 0; i < 2; i++)
+							{
+							   value += rollRandom("d6");
+							}
+							value = value * 1000;
+							$("body").append(value + " ep ");
+							 cell1.innerHTML += value + " ep, ";
+							//ep
+							value = 0;
+							for(var i = 0; i < 8; i++)
+							{
+							   value += rollRandom("d6");
+							}
+							value = value * 100;
+							$("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+							//gp
+						}
+						if(quality >= 16 && quality <= 55)
+						{
+							var value = 0;
+							
+							value = rollRandom("d6");
+							
+							value = value * 1000;
+							$("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+							//gp
+							value = 0;
+							
+							value = rollRandom("d6");
+							
+							value = value * 100;
+							$("body").append(value + " pp ");
+							 cell1.innerHTML += value + " pp, ";
+							//pp
+						}
+						if(quality >= 56 && quality <= 100)
+						{
+							var value = 0;
+							
+							value = rollRandom("d6");
+							
+							value = value * 1000;
+							$("body").append(value + " gp ");
+							cell1.innerHTML += value + " gp, ";
+							//gp
+							value = 0;
+							
+							for(var i = 0; i < 2; i++)
+							{
+							   value += rollRandom("d6");
+							}
+							
+							value = value * 100;
+							$("body").append(value + " pp ");
+							 cell1.innerHTML += value + " pp, ";
+							//pp
+						}
+					}
+				
+			   }
+			   if(property == "MagicItem" && dbInTheChest[property] == "1")
+			   {
+				   $.ajax({
+					method: "post",
+					url: "./table_processing_one.php",
+					data: {tableName: "magic_items"},
+					success:function(data)
+					{
+						var max =  JSON.parse(data);
+						var TEST = max[0].Name + ", ";
+						$("body").append(TEST);
+						cell2.innerHTML += TEST;
+					}
+				});
+			   }
+			   if(property == "Trinket" && dbInTheChest[property] == "1")
+			   {
+					$.ajax({
+					method: "post",
+					url: "./table_processing_one.php",
+					data: {tableName: "trinkets"},
+					success:function(data)
+					{
+						var max =  JSON.parse(data);
+						if(max[0].Name == "")
+						{
+							var TEST = max[0].description + ", ";
+							$("body").append(TEST);
+							cell1.innerHTML += TEST;
+						}
+						else
+						{
+							var TEST = max[0].Name + ", ";
+							$("body").append(TEST);
+							cell1.innerHTML += TEST;
+						}
+					}
+				}); 
+			   }
+			   if(property == "Gear" && dbInTheChest[property] == "1")
+			   {
+					$.ajax({
+					method: "post",
+					url: "./table_processing_one.php",
+					data: {tableName: "gear"},
+					success:function(data)
+					{
+						var max =  JSON.parse(data);
+						
+						var TEST = max[0].Name + ", ";
+						$("body").append(TEST);
+						cell1.innerHTML += TEST;
+						
+					}
+				}); 
+			   }
+			   if(property == "FoodNDrink" && dbInTheChest[property] == "1")
+			   {
+					$.ajax({
+					method: "post",
+					url: "./table_processing_one.php",
+					data: {tableName: "foodndrink"},
+					success:function(data)
+					{
+						var max =  JSON.parse(data);
+						var TEST = max[0].Name + ", ";
+						$("body").append(TEST);
+						cell1.innerHTML += TEST;
+					}
+				}); 
+			   }
+			   
+			  
+		   }
+		   }
+	   
+	   
 	});
     // WHen the table is changed, load the data table
     $("#ddlTable").change(function(){
