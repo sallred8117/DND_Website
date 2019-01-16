@@ -64,9 +64,60 @@ $DB = new DBHelper();
                 <input id="btnGenerate" type="button" class="btn btn-primary" value="Generate loot">
             </div>
         </div>
-        <!-- -->
-        <div class="row" id="content">
 
+        <div class="container" id="content">
+            <div class="row" id="title">
+                <h2 id="crLevel">CR 4 Selected</h2>
+                <hr>
+            </div>
+            <div class="row" id="content">
+                <div class="col-1">
+                    <h3>1.)</h3>
+                </div>
+                <div class="col-2">
+                    <h3>Quality 100</h3>
+                </div>
+                <div class="col">
+                    <h3>Mundane Items</h3>
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3>Magic Items</h3>
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" id="content">
+                <div class="col-1">
+                    <h3>2.)</h3>
+                </div>
+                <div class="col-2">
+                    <h3>Quality 83</h3>
+                </div>
+                <div class="col">
+                    <h3>Mundane Items</h3>
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3>Magic Items</h3>
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -82,6 +133,7 @@ $DB = new DBHelper();
     var position = 0;
     var rows = [];
     var cols = [];
+    var content = [];
 
     $(document).ready(function()
     {
@@ -112,6 +164,7 @@ $DB = new DBHelper();
                             value += rollRandom("d6");
                         }
                         $("body").append(value + " CP");
+                        content.push(value + " CP");
                         //Q30 :CP
                     }
                     else if (quality >= 31 && quality <= 60)
@@ -122,6 +175,7 @@ $DB = new DBHelper();
                             value += rollRandom("d6");
                         }
                         $("body").append(value + " SP");
+                        content.push(value + " SP");
                         //SP
                     }
                     else if (quality >= 61 && quality <= 70)
@@ -132,6 +186,7 @@ $DB = new DBHelper();
                             value += rollRandom("d6");
                         }
                         $("body").append(value + " EP");
+                        content.push(value + " EP");
                     }
                     else if (quality >= 71 && quality <= 95)
                     {
@@ -141,11 +196,13 @@ $DB = new DBHelper();
                             value += rollRandom("d6");
                         }
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                     }
                     else if (quality >= 96 && quality <= 100)
                     {
                         value += rollRandom("d6");
                         $("body").append(value + " PP");
+                        content.push(value + " PP");
                     }
 
                 }
@@ -162,10 +219,12 @@ $DB = new DBHelper();
                         }
                         value = value * 100;
                         $("body").append(value + " CP");
+                        content.push(value + " CP");
                         //CP
                         value = 0;
                         value = rollRandom("d6") * 10;
                         $("body").append(value + " EP");
+                        content.push(value + " EP");
                         //EP
                     }
                     else if (quality >= 31 && quality <= 60)
@@ -177,6 +236,7 @@ $DB = new DBHelper();
                         }
                         value = value * 10;
                         $("body").append(value + " SP");
+                        content.push(value + " SP");
                         //SP
 
                         value = 0;
@@ -186,6 +246,7 @@ $DB = new DBHelper();
                         }
                         value = value * 10;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                     }
                     else if (quality >= 61 && quality <= 70)
@@ -198,6 +259,7 @@ $DB = new DBHelper();
                         }
                         value = value * 10;
                         $("body").append(value + " EP");
+                        content.push(value + " EP");
                         //EP
 
                         value = 0;
@@ -207,6 +269,7 @@ $DB = new DBHelper();
                         }
                         value = value * 10;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                     }
                     else if (quality >= 71 && quality <= 95)
@@ -218,6 +281,7 @@ $DB = new DBHelper();
                         }
                         value = value * 10;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                     }
                     else if (quality >= 96 && quality <= 100)
@@ -229,6 +293,7 @@ $DB = new DBHelper();
                         }
                         value = value * 10;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                         value = 0;
                         for(var i = 0; i < 3; i++)
@@ -236,6 +301,7 @@ $DB = new DBHelper();
                             value += rollRandom("d6");
                         }
                         $("body").append(value + " PP");
+                        content.push(value + " PP");
                     }
                 }
                 if(CR == "11" || CR == "12" || CR == "13" || CR == "14" || CR == "15" || CR == "16")
@@ -251,11 +317,13 @@ $DB = new DBHelper();
                         }
                         value = value * 100;
                         $("body").append(value + " SP");
+                        content.push(value + " SP");
                         //SP
                         value = 0;
                         value = rollRandom("d6");
                         value = value * 100;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                     }
                     if(quality >= 21 && quality <= 35)
@@ -264,11 +332,13 @@ $DB = new DBHelper();
                         value = rollRandom("d6");
                         value = value * 100;
                         $("body").append(value + " EP");
+                        content.push(value + " EP");
                         //EP
                         value = 0;
                         value = rollRandom("d6");
                         value = value * 100;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                     }
                     if(quality >= 36 && quality <= 75)
@@ -280,11 +350,13 @@ $DB = new DBHelper();
                         }
                         value = value * 100;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                         value = 0;
                         value = rollRandom("d6");
                         value = value * 10;
                         $("body").append(value + " PP");
+                        content.push(value + " PP");
                         //PP
                     }
                     if(quality >= 76 && quality <= 100)
@@ -296,6 +368,7 @@ $DB = new DBHelper();
                         }
                         value = value * 100;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                         value = 0;
                         for(var i = 0; i < 2; i++)
@@ -304,6 +377,7 @@ $DB = new DBHelper();
                         }
                         value = value * 10;
                         $("body").append(value + " PP");
+                        content.push(value + " PP");
                         //PP
                     }
                 }
@@ -320,6 +394,7 @@ $DB = new DBHelper();
                         }
                         value = value * 1000;
                         $("body").append(value + " EP");
+                        content.push(value + " EP");
                         //EP
                         value = 0;
                         for(var i = 0; i < 8; i++)
@@ -328,6 +403,7 @@ $DB = new DBHelper();
                         }
                         value = value * 100;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                     }
                     if(quality >= 16 && quality <= 55)
@@ -338,6 +414,7 @@ $DB = new DBHelper();
 
                         value = value * 1000;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                         value = 0;
 
@@ -345,6 +422,7 @@ $DB = new DBHelper();
 
                         value = value * 100;
                         $("body").append(value + " PP");
+                        content.push(value + " PP");
                         //PP
                     }
                     if(quality >= 56 && quality <= 100)
@@ -355,6 +433,7 @@ $DB = new DBHelper();
 
                         value = value * 1000;
                         $("body").append(value + " GP");
+                        content.push(value + " GP");
                         //GP
                         value = 0;
 
@@ -365,6 +444,7 @@ $DB = new DBHelper();
 
                         value = value * 100;
                         $("body").append(value + " PP");
+                        content.push(value + " PP");
                         //PP
                     }
                 }
@@ -381,6 +461,7 @@ $DB = new DBHelper();
                         var max =  JSON.parse(data);
                         var TEST = max[0].Name + ",";
                         $("body").append(TEST);
+                        content.push(TEST);
                     }
                 });
             }
@@ -397,11 +478,15 @@ $DB = new DBHelper();
                         {
                             var TEST = max[0].description + ",";
                             $("body").append(TEST);
+                            content.push(TEST);
+                            console.log(TEST);
                         }
                         else
                         {
                             var TEST = max[0].Name + ",";
                             $("body").append(TEST);
+                            content.push(TEST);
+                            console.log(TEST);
                         }
                     }
                 });
@@ -418,6 +503,7 @@ $DB = new DBHelper();
 
                         var TEST = max[0].Name + ",";
                         $("body").append(TEST);
+                        content.push(TEST);
 
                     }
                 });
@@ -433,12 +519,15 @@ $DB = new DBHelper();
                         var max =  JSON.parse(data);
                         var TEST = max[0].Name + ",";
                         $("body").append(TEST);
+                        content.push(TEST);
                     }
                 });
             }
 
 
         }
+        console.log("CONTENT");
+        console.log(content);
     });
 
     function inChest()
