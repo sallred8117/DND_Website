@@ -225,4 +225,129 @@ class DBHelper
         $conn->close();
         return $data;
     }
+
+    function SELECT_CR_0to4_MagicItems($table,$limit = null)
+    {
+        $conn = $this->getMysqliConnection();
+        $data = array();
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        if($limit = null)
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' ORDER BY RAND()";
+        }
+        else
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' ORDER BY RAND() LIMIT " . $limit;
+        }
+
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0)
+        {
+            // output data of each row, there is only one though
+            while($row = $result->fetch_assoc())
+            {
+                array_push($data, $row);
+            }
+        }
+        $conn->close();
+        return $data;
+    }
+    function SELECT_CR_5to10_MagicItems($table,$limit = null)
+    {
+        $conn = $this->getMysqliConnection();
+        $data = array();
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        if($limit = null)
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare' ORDER BY RAND()";
+        }
+        else
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare'  ORDER BY RAND() LIMIT " . $limit;
+        }
+
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0)
+        {
+            // output data of each row, there is only one though
+            while($row = $result->fetch_assoc())
+            {
+                array_push($data, $row);
+            }
+        }
+        $conn->close();
+        return $data;
+    }
+    function SELECT_CR_11to17_MagicItems($table,$limit = null)
+    {
+        $conn = $this->getMysqliConnection();
+        $data = array();
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        if($limit = null)
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare' OR Rarity = 'Very Rare' ORDER BY RAND()";
+        }
+        else
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare' OR Rarity = 'Very Rare'  ORDER BY RAND() LIMIT " . $limit;
+        }
+
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0)
+        {
+            // output data of each row, there is only one though
+            while($row = $result->fetch_assoc())
+            {
+                array_push($data, $row);
+            }
+        }
+        $conn->close();
+        return $data;
+    }
+    function SELECT_CR_17plus_MagicItems($table,$limit = null)
+    {
+        $conn = $this->getMysqliConnection();
+        $data = array();
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        if($limit = null)
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare' OR Rarity = 'Very Rare' OR Rarity = 'Legendary' ORDER BY RAND()";
+        }
+        else
+        {
+            $sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare' OR Rarity = 'Very Rare' OR Rarity = 'Legendary' ORDER BY RAND() LIMIT " . $limit;
+        }
+
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0)
+        {
+            // output data of each row, there is only one though
+            while($row = $result->fetch_assoc())
+            {
+                array_push($data, $row);
+            }
+        }
+        $conn->close();
+        return $data;
+    }
 }

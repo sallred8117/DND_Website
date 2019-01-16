@@ -107,6 +107,7 @@ $DB = new DBHelper();
 
     // WHen the table is changed, load the data table
     $("#ddlTable").change(function(){
+        var table = document.getElementById("ddlTable").value;
 
 		var table = document.getElementById("ddlTable").value
         $.ajax({
