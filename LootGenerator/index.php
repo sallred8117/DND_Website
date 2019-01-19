@@ -19,6 +19,12 @@ $DB = new DBHelper();
 </head>
 <body>
 
+<style>
+    body {
+        font-family: 'Oswald', sans-serif !important;
+    }
+</style>
+
 <!-- Whole Page -->
 <div class="container-fluid bg-white">
     <div class="container bg-white">
@@ -523,8 +529,6 @@ $DB = new DBHelper();
                     }
                 });
             }
-
-
         }
         console.log("CONTENT");
         console.log(content);
