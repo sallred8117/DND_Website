@@ -52,7 +52,7 @@ $DB = new DBHelper();
             </div>
         </div>
         <div class="col">
-            <div class="form-group row">
+            <div class="form-group row" hidden>
                 <label class="col-sm-3 col-form-label">Select Table:</label>
                 <div class="col-sm-9">
                     <select id="ddlTable" class="form-control">
@@ -96,13 +96,11 @@ $DB = new DBHelper();
     $(document).ready(function() {
         // Load the data table
         //getTable();
-        getTableList();
+
     });
 
     $("#ddlBases").change(function() {
-        position = 0;
         $("#list").empty();
-        $("#ddlTable").empty();
         getTableList();
     });
 
@@ -115,15 +113,7 @@ $DB = new DBHelper();
             url: "./table_processing.php",
             data: {database: database},
             success: function (data) {
-                var selectValues = JSON.parse(data);
-                $.each(selectValues, function(key, value) {
-                    $('#ddlTable')
-                        .append($("<option></option>")
-                            .attr("value",value)
-                            .text(value));
-                });
-
-                getList();
+                console.log(data);
             }
         });
     }
@@ -131,14 +121,15 @@ $DB = new DBHelper();
     function getList()
     {
         var table = $("#ddlTable").val();
-        var database = $("#ddlBases").val();
+        console.log(table);
 
         $.ajax({
             method: "post",
             url: "./table_processing.php",
-            data: {tableName: table, database: database},
+            data: {tableName: table},
             success:function(data)
             {
+                console.log(data);
                 rows = JSON.parse(data);
 
                 if (rows === undefined || rows.length === 0) {
@@ -149,6 +140,8 @@ $DB = new DBHelper();
                 else
                 {
                     cols = Object.keys(rows[0]);
+                    console.log(rows);
+                    console.log(cols);
 
                     if(count !== 0)
                     {
@@ -168,6 +161,8 @@ $DB = new DBHelper();
 
     function showItem()
     {
+        //console.log(rows);
+        //console.log(cols);
         size = rows.length;
         $.ajax({
             method: "post",
@@ -175,6 +170,7 @@ $DB = new DBHelper();
             data: {rows: rows[position], cols: cols},
             success:function(data)
             {
+                console.log(data);
                 $("#list").append(data);
             }
         });
@@ -191,9 +187,10 @@ $DB = new DBHelper();
 
         else
         {
+            console.log("ELSE");
             position--;
-            alert("There are no more items!");
         }
+        console.log("Position: " + position);
     }
 
     function previousItem()
@@ -212,8 +209,7 @@ $DB = new DBHelper();
     }
 
     $('#ddlTable').change(function(){
-        position = 0;
-        $('#list').empty();
+        $("#list").empty();
         getList();
     });
 
@@ -232,6 +228,9 @@ $DB = new DBHelper();
         var item = {};
         item["table"] = $("#ddlTable").val();
         jsonObj.push(item);
+
+        console.log(jsonObj);
+        console.log(JSON.stringify(jsonObj));
 
         // AJax Call
         $.ajax({

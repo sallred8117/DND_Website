@@ -123,7 +123,6 @@ class DBHelper
     public function SWITCH_DB($database)
     {
         $this->maindb = $database;
-        mysqli_select_db($this->getMysqliConnection(), $database);
     }
 
     /**********************************************
@@ -188,8 +187,7 @@ class DBHelper
 
         $sql = "SELECT * FROM $table";
 
-        $result = $conn->query($sql) or trigger_error(mysqli_error($conn) . " " . $sql);
-
+        $result = $conn->query($sql);
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though

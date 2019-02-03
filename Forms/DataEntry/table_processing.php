@@ -7,14 +7,12 @@
  */
 require "../../Library/DBHelper.php";
 
-if(isset($_POST["tableName"]) && isset($_POST["database"]))
+if(isset($_POST["tableName"]))
 {
     // Getting table name
     $tableName = $_POST["tableName"];
-    $database = $_POST["database"];
 
     $DB = new DBHelper();
-    $DB->SWITCH_DB($database);
 
     // Getting rows from table
     $rows = $DB->SELECT_ALL($tableName);
@@ -24,13 +22,12 @@ if(isset($_POST["tableName"]) && isset($_POST["database"]))
 	echo json_encode($rows);
 }
 
-else if(isset($_POST["database"]))
+elseif(isset($_POST["database"]))
 {
     // Getting database name
     $database = $_POST["database"];
 
     $DB = new DBHelper();
-    $DB->SWITCH_DB($database);
 
     // Getting rows
     $rows = $DB->GET_ALL_TABLES($database);
