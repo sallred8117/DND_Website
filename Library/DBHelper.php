@@ -108,6 +108,10 @@ class DBHelper
         return $db = new mysqli($this->host, $this->user, $this->pwd, $this->maindb);
     }
 
+    public function getMysqliConnectionServer()
+    {
+        return $db = new mysqli($this->host, $this->user, $this->pwd);
+    }
 
     /**********************************************
      * Function: SWITCH_DB
@@ -116,17 +120,10 @@ class DBHelper
      *$collection (string) - db parameter name (such as bluchermaps, greenmaps)
      * Return value(s): true if success, false if error occurs
      ***********************************************/
-    public function SWITCH_DB($collection)
+    public function SWITCH_DB($database)
     {
-        if ($collection == null || $collection == "") //or == maindb
-            $this->getConn()->exec('USE ' . self::$maindb);
-        //get appropriate database
-        $dbname = $this->SP_GET_COLLECTION_CONFIG(htmlspecialchars($collection))['DbName'];
-        if ($dbname != null && $dbname != "") {
-            $this->getConn()->exec('USE ' . $dbname);
-            return true;
-        }
-        return false;
+        $this->maindb = $database;
+        mysqli_select_db($this->getMysqliConnection(), $database);
     }
 
     /**********************************************
@@ -160,8 +157,10 @@ class DBHelper
         return $result;
     }
 
-    function GET_ALL_TABLES()
+    function GET_ALL_TABLES($database)
     {
+        // Change to the correct DB first
+        $this->SWITCH_DB($database);
         $conn = $this->getMysqliConnection();
 
         // Check connection
@@ -189,7 +188,8 @@ class DBHelper
 
         $sql = "SELECT * FROM $table";
 
-        $result = $conn->query($sql);
+        $result = $conn->query($sql) or trigger_error(mysqli_error($conn) . " " . $sql);
+
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though
@@ -348,5 +348,27 @@ class DBHelper
         }
         $conn->close();
         return $data;
+    }
+
+    function GET_ALL_DATABASES()
+    {
+        //SELECT * FROM sys.databases
+        $conn = $this->getMysqliConnectionServer();
+        $data = array();
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $listdbtables = array_column(mysqli_fetch_all($conn->query('SHOW DATABASES')),0);
+
+        $conn->close();
+        return $listdbtables;
+    }
+
+    function UPDATE_TABLE($database, $table, $data)
+    {
+
     }
 }

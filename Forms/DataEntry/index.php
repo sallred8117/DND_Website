@@ -22,90 +22,59 @@ $DB = new DBHelper();
 </head>
 <body>
 <?php include "../../Master/top_navbar.php"; ?>
-<h1 class="text-center mt-3">Loot Generator</h1>
+<h1 class="text-center mt-3">Data Entry</h1>
 <!-- Whole Page -->
-<div class="container bg-white rounded mt-3">
+<div class="container bg-white mt-3 rounded">
     <div class="row">
         <div class="col mt-3">
-            <h3>How it Works</h3>
-            <hr>
-            <p>To generate some loot, please select the CR level of the monster your party defeated! There is a chance that
-                your party rolls well, and may get a magical item that is classed one level above there own, good luck!</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mt-3">
-            <h3>Color Coding for Rarity</h3>
-            <hr>
-            <p>Below is a list defining a rarity of an item going from weakest to greatest.</p>
-            <ul>
-                <li>Common</li>
-                <li>Uncommon</li>
-                <li>Rare</li>
-                <li>Very Rare</li>
-                <li>Legendary</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="container bg-white mt-5 rounded">
-    <div class="row">
-        <div class="col mt-3">
-            <h3>Generator Options</h3>
+            <h3>Select Table to Enter Data</h3>
             <hr>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            Number of items to generate <select class="form-control" id="ddlContainerList">
-                <option value="4">4</option>
-                <option value="6">6</option>
-                <option value="8">8</option>
-                <option value="10" selected="selected">10</option>
-                <option value="12">12</option>
-                <option value="20">20</option>
-                <option value="100">100</option>
-            </select>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Select Databases:</label>
+                <div class="col-sm-8">
+                    <select id="ddlBases" class="form-control">
+                        <?php
+                        $databases = $DB->GET_ALL_DATABASES();
+
+                        foreach($databases as $database)
+                        {
+                            if($database !== "information_schema" && $database !== "performance_schema" && $database !== "phpmyadmin" && $database !== "mysql")
+                            {
+                                echo "<option value='$database'>$database</option>";
+                            }
+                        }
+                        ?></select>
+                </div>
+            </div>
         </div>
         <div class="col">
-            CR Rating <select id="ddlTableCR" class="form-control">
-                <option value="0"> CR 0 </option>
-                <option value="1/8"> CR 1/8 </option>
-                <option value="1/4"> CR 1/4 </option>
-                <option value="1/2"> CR 1/2 </option>
-                <option value="1"> CR 1 </option>
-                <option value="2"> CR 2 </option>
-                <option value="3"> CR 3 </option>
-                <option value="4"> CR 4 </option>
-                <option value="5"> CR 5 </option>
-                <option value="6"> CR 6 </option>
-                <option value="7"> CR 7 </option>
-                <option value="8"> CR 8 </option>
-                <option value="9"> CR 9 </option>
-                <option value="10"> CR 10 </option>
-                <option value="11"> CR 11 </option>
-                <option value="12"> CR 12 </option>
-                <option value="13"> CR 13 </option>
-                <option value="14"> CR 14 </option>
-                <option value="15"> CR 15 </option>
-                <option value="16"> CR 16 </option>
-                <option value="17"> CR 17 </option>
-                <option value="18"> CR 18 </option>
-                <option value="19"> CR 19 </option>
-                <option value="20"> CR 20 </option>
-                <option value="20+"> CR 20+ </option>
-            </select>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Select Table:</label>
+                <div class="col-sm-9">
+                    <select id="ddlTable" class="form-control">
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col mt-3"></div>
+    <!-- Show it as a list -->
+    <div class="row pt-3" id="listdiv">
+        <div class="container-fluid" id="main">
+            <div class="d-flex justify-content-between">
+                <div><button class="btn btn-secondary" onclick="previousItem()" id="previous">Previous</button></div>
+                <div><button class="btn btn-primary" onclick="nextItem()" id="next">Next</button></div>
+            </div>
+            <br>
+            <form id="list">
+            </form>
+        </div>
     </div>
 </div>
-
-<div class="mt-5">
-    <h1>Bottom</h1>
-</div>
+<div class="container mt-5"></div>
 <!-- Put script tags at the bottom of the page, makes the page load faster -->
 <!-- JQuery cdn -->
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -113,5 +82,171 @@ $DB = new DBHelper();
 <!-- Bootstrap complete JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
+<!-- Datatables w/bootstrap -->
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    var count = 0;
+    var position = 0;
+    var rows = [];
+    var cols = [];
+    var size = 0;
+
+    $(document).ready(function() {
+        // Load the data table
+        //getTable();
+        getTableList();
+    });
+
+    $("#ddlBases").change(function() {
+        position = 0;
+        $("#list").empty();
+        $("#ddlTable").empty();
+        getTableList();
+    });
+
+    function getTableList()
+    {
+        var database = $("#ddlBases").val();
+
+        $.ajax({
+            method: "post",
+            url: "./table_processing.php",
+            data: {database: database},
+            success: function (data) {
+                var selectValues = JSON.parse(data);
+                $.each(selectValues, function(key, value) {
+                    $('#ddlTable')
+                        .append($("<option></option>")
+                            .attr("value",value)
+                            .text(value));
+                });
+
+                getList();
+            }
+        });
+    }
+
+    function getList()
+    {
+        var table = $("#ddlTable").val();
+        var database = $("#ddlBases").val();
+
+        $.ajax({
+            method: "post",
+            url: "./table_processing.php",
+            data: {tableName: table, database: database},
+            success:function(data)
+            {
+                rows = JSON.parse(data);
+
+                if (rows === undefined || rows.length === 0) {
+                    // array empty or does not exist
+                    alert("The table: " + table + ", did not return anything. Might be empty.")
+                }
+
+                else
+                {
+                    cols = Object.keys(rows[0]);
+
+                    if(count !== 0)
+                    {
+                        // Destroy list
+                        showItem();
+                    }
+
+                    else
+                    {
+                        showItem();
+                        count++;
+                    }
+                }
+            }
+        });
+    }
+
+    function showItem()
+    {
+        size = rows.length;
+        $.ajax({
+            method: "post",
+            url: "./list_processing.php",
+            data: {rows: rows[position], cols: cols},
+            success:function(data)
+            {
+                $("#list").append(data);
+            }
+        });
+    }
+
+    function nextItem()
+    {
+        position++;
+        if(position !== 0 && position !== size)
+        {
+            $("#list").empty();
+            showItem();
+        }
+
+        else
+        {
+            position--;
+            alert("There are no more items!");
+        }
+    }
+
+    function previousItem()
+    {
+        if(position === 0)
+        {
+            position = 0;
+        }
+
+        else
+        {
+            position--;
+            $("#list").empty();
+            showItem();
+        }
+    }
+
+    $('#ddlTable').change(function(){
+        position = 0;
+        $('#list').empty();
+        getList();
+    });
+
+    $('#list').submit(function(event) {
+        var jsonObj = [];
+
+        $('input[type=text]').each(function(){
+            var name = $(this).attr("id");
+            var value = $(this).val();
+            var item = {};
+
+            item[name] = value;
+            jsonObj.push(item);
+        });
+
+        var item = {};
+        item["table"] = $("#ddlTable").val();
+        jsonObj.push(item);
+
+        // AJax Call
+        $.ajax({
+            method: "post",
+            url: "./edit_item.php",
+            datatype: "json",
+            data: JSON.stringify(jsonObj),
+            success:function(data)
+            {
+                console.log(data);
+            }
+        });
+        // Preventing default
+        event.preventDefault();
+    });
+</script>
 </body>
 </html>
