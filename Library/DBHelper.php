@@ -369,6 +369,79 @@ class DBHelper
 
     function UPDATE_TABLE($database, $table, $data)
     {
+        // Switch DB just to make sure its connected to the right one
+        $this->SWITCH_DB($database);
 
+        // Then get the connection
+        $conn = $this->getMysqliConnection();
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $initialKey = key($data);
+        $where = "$initialKey = $data[$initialKey]";
+        $query = "";
+        $size = count($data);
+        $counter = 0;
+
+        foreach($data as $key => $value)
+        {
+            // Ignore keys that are table and database name
+            if($key == "table" || $key == "database")
+            {
+                continue;
+            }
+            // Checking to see if its the end. If it is, we don't need a comma
+            if($counter == $size - 3)
+            {
+                // attunement, id
+                if(is_numeric($value))
+                {
+                    $query .= "$key = $value";
+                }
+
+                else
+                {
+                    $query .= "$key = '$value'";
+                }
+            }
+
+            else
+            {
+                if(is_numeric($value))
+                {
+                    $query .= "$key = $value, ";
+                }
+
+                else
+                {
+                    $query .= "$key = '$value', ";
+                }
+            }
+            $counter++;
+        }
+
+        $sql = "UPDATE $table SET $query WHERE $where";
+
+        $result = $conn->query($sql);
+
+        if ($result === TRUE) {
+            echo "<script>alert('Update successful!')</script>";
+        } else {
+            echo '<script>alert("Error updating record: ' . $conn->error . '");</script>';
+        }
+
+        /*if ($result->num_rows > 0)
+        {
+            // output data of each row, there is only one though
+            while($row = $result->fetch_assoc())
+            {
+                array_push($data, $row);
+            }
+        }
+        $conn->close();*/
+        return $data;
     }
 }
