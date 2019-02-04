@@ -692,9 +692,11 @@ $DB = new DBHelper();
                         success:function(data)
                         {
                             var max =  JSON.parse(data);
-                            var TEST = max[0].Name;
-                            magicItems += "<li>" + TEST + "</li>";
-                            $("body").append(TEST);
+                           // var TEST = max[0].Name;
+
+                           // magicItems += "<li>" + TEST + "</li>";
+                            magicItems += setRarity(max[0].Rarity, max[0].Name)
+                           // $("body").append(TEST);
                         }
                     });
                 }
@@ -1008,10 +1010,35 @@ $DB = new DBHelper();
     {
         if(type == "Standard Chest")
         {
-            var dist = {Money: 60, MagicItem: 10, Trinket: 20, Gear: 6.5, FoodNDrink: 2.5};
+            var dist = {Money: 60, MagicItem: 30, Trinket: 20, Gear: 6.5, FoodNDrink: 2.5};
             console.log("Using " + type + " distribution : " + "60,10,20,7.5,2.5");
         }
         return dist;
+    }
+    function setRarity(rarity, item)
+    {
+        var text = "";
+        if(rarity == "Uncommon")
+        {
+             text = "<li style='text-shadow:1px 1px 20px limegreen, 0 0 25px limegreen, 0 0 10px lightblue' >" + item + "</li>";
+        }
+        else if (rarity == "Rare")
+        {
+             text = "<li style='text-shadow:1px 1px 20px blue, 0 0 25px blue, 0 0 10px lightblue' >" + item + "</li>";
+        }
+        else if (rarity == "Very Rare")
+        {
+             text = "<li style='text-shadow:1px 1px 20px blueviolet, 0 0 25px blueviolet, 0 0 10px blue' >" + item + "</li>";
+        }
+        else if (rarity == "Legendary")
+        {
+             text = "<li style='text-shadow:1px 1px 20px orange, 0 0 25px orange, 0 0 10px orange' >" + item + "</li>";
+        }
+        else
+        {
+            text = "<li>" + item + "</li>";
+        }
+        return text;
     }
 </script>
 
