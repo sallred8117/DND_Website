@@ -75,6 +75,7 @@ $DB = new DBHelper();
     </div>
 </div>
 <div class="container mt-5"></div>
+<div id="response"></div>
 <!-- Put script tags at the bottom of the page, makes the page load faster -->
 <!-- JQuery cdn -->
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -220,7 +221,18 @@ $DB = new DBHelper();
     $('#list').submit(function(event) {
         var jsonObj = [];
 
+        // Getting all inputs first
         $('input[type=text]').each(function(){
+            var name = $(this).attr("id");
+            var value = $(this).val();
+            var item = {};
+
+            item[name] = value;
+            jsonObj.push(item);
+        });
+
+        // Getting all textareas next
+        $("textarea").each(function(){
             var name = $(this).attr("id");
             var value = $(this).val();
             var item = {};
@@ -233,6 +245,10 @@ $DB = new DBHelper();
         item["table"] = $("#ddlTable").val();
         jsonObj.push(item);
 
+        item = {};
+        item["database"] = $("#ddlBases").val();
+        jsonObj.push(item);
+
         // AJax Call
         $.ajax({
             method: "post",
@@ -241,7 +257,7 @@ $DB = new DBHelper();
             data: JSON.stringify(jsonObj),
             success:function(data)
             {
-                console.log(data);
+                $("#response").append(data);
             }
         });
         // Preventing default

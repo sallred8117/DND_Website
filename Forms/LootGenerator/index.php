@@ -22,84 +22,95 @@ $DB = new DBHelper();
 </head>
 <body>
 <?php include "../../Master/top_navbar.php"; ?>
-<h1 class="text-center mt-3">Loot Generator</h1>
 <!-- Whole Page -->
-<div class="container bg-white rounded mt-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-    <div class="row">
-        <div class="col mt-3">
-            <h3>How it Works</h3>
-            <hr>
-            <p>To generate some loot, please select the CR level of the monster your party defeated! There is a chance that
-                your party rolls well, and may get a magical item that is classed one level above there own, good luck!</p>
+<div class="container-fluid pl-5 pt-5 pr-5" >
+    <div class="row  mt-3">
+        <div class="col-md-2 col-md-offset-1">
+            <div class="rounded p-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                <h3 class="text-center">How it Works</h3>
+                <hr>
+                <p>To generate some loot, please select the CR level of the monster your party defeated! There is a chance that
+                    your party rolls well, and may get a magical item that is classed one level above there own, good luck!</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col mt-3">
-            <h3>Color Coding for Rarity</h3>
-            <hr>
-            <p>Below is a list defining a rarity of an item going from weakest to greatest.</p>
-            <ul>
-                <li style="text">Common</li>
-                <li>Uncommon</li>
-                <li>Rare</li>
-                <li>Very Rare</li>
-                <li>Legendary</li>
-            </ul>
-        </div>
-    </div>
-</div>
+        <div class="col">
+            <div class="container">
+                <div class="bg-white rounded pl-3 pr-3 pb-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                    <h1 class="text-center">Loot Generator</h1>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            Number of items to generate <select class="form-control" id="ddlContainerList">
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                                <option value="8">8</option>
+                                <option value="10" selected="selected">10</option>
+                                <option value="12">12</option>
+                                <option value="20">20</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            CR Rating <select id="ddlTableCR" class="form-control">
+                                <option value="0"> CR 0 </option>
+                                <option value="1/8"> CR 1/8 </option>
+                                <option value="1/4"> CR 1/4 </option>
+                                <option value="1/2"> CR 1/2 </option>
+                                <option value="1"> CR 1 </option>
+                                <option value="2"> CR 2 </option>
+                                <option value="3"> CR 3 </option>
+                                <option value="4"> CR 4 </option>
+                                <option value="5"> CR 5 </option>
+                                <option value="6"> CR 6 </option>
+                                <option value="7"> CR 7 </option>
+                                <option value="8"> CR 8 </option>
+                                <option value="9"> CR 9 </option>
+                                <option value="10"> CR 10 </option>
+                                <option value="11"> CR 11 </option>
+                                <option value="12"> CR 12 </option>
+                                <option value="13"> CR 13 </option>
+                                <option value="14"> CR 14 </option>
+                                <option value="15"> CR 15 </option>
+                                <option value="16"> CR 16 </option>
+                                <option value="17"> CR 17 </option>
+                                <option value="18"> CR 18 </option>
+                                <option value="19"> CR 19 </option>
+                                <option value="20"> CR 20 </option>
+                                <option value="20+"> CR 20+ </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-<div class="container bg-white mt-5 rounded" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-    <div class="row">
-        <div class="col mt-3">
-            <h3>Generator Options</h3>
-            <hr>
+                <!-- Stuff that is generated -->
+                <div class="bg-white rounded mt-5" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                    <div class="row">
+                        <div class="col">
+                            <div id="main">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-md-offset-1">
+            <div class="rounded p-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                <h3 class="text-center">Color Coding</h3>
+                <hr>
+                <p>Below is a list defining a rarity of an item going from weakest to greatest.</p>
+                <ul>
+                    <li>Common</li>
+                    <li style="text-shadow:1px 1px 20px limegreen, 0 0 25px limegreen, 0 0 15px lightblue" >Uncommon</li>
+                    <li style="text-shadow:1px 1px 20px blue, 0 0 25px blue, 0 0 15px lightblue">Rare</li>
+                    <li style="text-shadow:1px 1px 20px violet, 0 0 25px violet, 0 0 15px blue">Very Rare</li>
+                    <li style="text-shadow:1px 1px 20px orange, 0 0 25px orange, 0 0 15px orange">Legendary</li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            Number of items to generate <select class="form-control" id="ddlContainerList">
-                <option value="4">4</option>
-                <option value="6">6</option>
-                <option value="8">8</option>
-                <option value="10" selected="selected">10</option>
-                <option value="12">12</option>
-                <option value="20">20</option>
-                <option value="100">100</option>
-            </select>
-        </div>
-        <div class="col">
-            CR Rating <select id="ddlTableCR" class="form-control">
-                <option value="0"> CR 0 </option>
-                <option value="1/8"> CR 1/8 </option>
-                <option value="1/4"> CR 1/4 </option>
-                <option value="1/2"> CR 1/2 </option>
-                <option value="1"> CR 1 </option>
-                <option value="2"> CR 2 </option>
-                <option value="3"> CR 3 </option>
-                <option value="4"> CR 4 </option>
-                <option value="5"> CR 5 </option>
-                <option value="6"> CR 6 </option>
-                <option value="7"> CR 7 </option>
-                <option value="8"> CR 8 </option>
-                <option value="9"> CR 9 </option>
-                <option value="10"> CR 10 </option>
-                <option value="11"> CR 11 </option>
-                <option value="12"> CR 12 </option>
-                <option value="13"> CR 13 </option>
-                <option value="14"> CR 14 </option>
-                <option value="15"> CR 15 </option>
-                <option value="16"> CR 16 </option>
-                <option value="17"> CR 17 </option>
-                <option value="18"> CR 18 </option>
-                <option value="19"> CR 19 </option>
-                <option value="20"> CR 20 </option>
-                <option value="20+"> CR 20+ </option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mt-3"></div>
+
     </div>
 </div>
 
@@ -242,9 +253,7 @@ $DB = new DBHelper();
         </div>
     </div>
 </div>-->
-<div id="main">
 
-</div>
 
 
 
