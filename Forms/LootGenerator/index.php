@@ -24,7 +24,7 @@ $DB = new DBHelper();
 <?php include "../../Master/top_navbar.php"; ?>
 <h1 class="text-center mt-3">Loot Generator</h1>
 <!-- Whole Page -->
-<div class="container bg-white rounded mt-3">
+<div class="container bg-white rounded mt-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
     <div class="row">
         <div class="col mt-3">
             <h3>How it Works</h3>
@@ -39,7 +39,7 @@ $DB = new DBHelper();
             <hr>
             <p>Below is a list defining a rarity of an item going from weakest to greatest.</p>
             <ul>
-                <li>Common</li>
+                <li style="text">Common</li>
                 <li>Uncommon</li>
                 <li>Rare</li>
                 <li>Very Rare</li>
@@ -49,7 +49,7 @@ $DB = new DBHelper();
     </div>
 </div>
 
-<div class="container bg-white mt-5 rounded">
+<div class="container bg-white mt-5 rounded" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
     <div class="row">
         <div class="col mt-3">
             <h3>Generator Options</h3>
@@ -765,13 +765,13 @@ $DB = new DBHelper();
 
             // html
             var html = '<div class="container-fluid mt-3" id="container-"' + V + '>\n' +
-                '    <div class="container bg-white rounded border border-dark">\n' +
+                '    <div class=" shadow-lg container bg-white rounded border border-dark" >\n' +
                 '        <div class="row">\n' +
                 '            <div class="col-1 align-self-center text-center">\n' +
                 '                <h3 id="rowHeader">' + V + '.)</h3>\n' +
                 '            </div>\n' +
                 '            <div class="col-9 rounded border border-top-0 border-bottom-0 border-dark">\n' +
-                '                <div class="row pt-3">\n' +
+                '                <div class="row pt-3" style="background-color: Gray">\n' +
                 '                    <div class="col-8">\n' +
                 '                        <h2 id="chestTitle">Chest of the Dead</h2>\n' +
                 '                        <p id="chestDescription">Here is a description of this dreadful chest. It is very dark and spoopy, no one in their right mind would touch this chest.</p>\n' +
