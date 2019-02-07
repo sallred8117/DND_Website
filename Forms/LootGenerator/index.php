@@ -22,92 +22,109 @@ $DB = new DBHelper();
 </head>
 <body>
 <?php include "../../Master/top_navbar.php"; ?>
+
 <!-- Whole Page -->
 <div class="container-fluid pl-5 pt-5 pr-5" >
-    <div class="row  mt-3">
+    <div class="row mt-3">
         <div class="col-md-2 col-md-offset-1">
             <div class="rounded p-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-                <h3 class="text-center">How it Works</h3>
+                <h3 class="text-center customfont">How it Works</h3>
                 <hr>
-                <p>To generate some loot, please select the CR level of the monster your party defeated! There is a chance that
-                    your party rolls well, and may get a magical item that is classed one level above there own, good luck!</p>
+                <p>Select the CR level of the chests you wish to generate. If your party rolls well the chest may contain a magical item that is classed one rarity level above the recommended CR rating!</p>
             </div>
-        </div>
-        <div class="col">
-            <div class="container">
-                <div class="bg-white rounded pl-3 pr-3 pb-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-                    <h1 class="text-center">Loot Generator</h1>
+
+                <div class="rounded p-3 mt-5" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                    <h3 class="text-center customfont">Color Coding</h3>
                     <hr>
-                    <div class="row">
-                        <div class="col">
-                            Number of items to generate <select class="form-control" id="ddlContainerList">
-                                <option value="4">4</option>
-                                <option value="6">6</option>
-                                <option value="8">8</option>
-                                <option value="10" selected="selected">10</option>
-                                <option value="12">12</option>
-                                <option value="20">20</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            CR Rating <select id="ddlTableCR" class="form-control">
-                                <option value="0"> CR 0 </option>
-                                <option value="1/8"> CR 1/8 </option>
-                                <option value="1/4"> CR 1/4 </option>
-                                <option value="1/2"> CR 1/2 </option>
-                                <option value="1"> CR 1 </option>
-                                <option value="2"> CR 2 </option>
-                                <option value="3"> CR 3 </option>
-                                <option value="4"> CR 4 </option>
-                                <option value="5"> CR 5 </option>
-                                <option value="6"> CR 6 </option>
-                                <option value="7"> CR 7 </option>
-                                <option value="8"> CR 8 </option>
-                                <option value="9"> CR 9 </option>
-                                <option value="10"> CR 10 </option>
-                                <option value="11"> CR 11 </option>
-                                <option value="12"> CR 12 </option>
-                                <option value="13"> CR 13 </option>
-                                <option value="14"> CR 14 </option>
-                                <option value="15"> CR 15 </option>
-                                <option value="16"> CR 16 </option>
-                                <option value="17"> CR 17 </option>
-                                <option value="18"> CR 18 </option>
-                                <option value="19"> CR 19 </option>
-                                <option value="20"> CR 20 </option>
-                                <option value="20+"> CR 20+ </option>
-                            </select>
-                        </div>
-                    </div>
+                    <p>Below is a list defining a rarity of an item going from weakest to greatest.</p>
+                    <ul>
+                        <li>Common</li>
+                        <li style="text-shadow:1px 1px 20px limegreen, 0 0 25px limegreen, 0 0 15px lightblue" >Uncommon</li>
+                        <li style="text-shadow:1px 1px 20px #0070dd, 0 0 25px #0070dd, 0 0 15px #0070dd">Rare</li>
+                        <li style="text-shadow:1px 1px 20px violet, 0 0 25px violet, 0 0 15px blue">Very Rare</li>
+                        <li style="text-shadow:1px 1px 20px orange, 0 0 25px orange, 0 0 15px orange">Legendary</li>
+                    </ul>
                 </div>
 
+        </div>
+
+
+        <div class="col">
+            <div class="container-fluid">
+
                 <!-- Stuff that is generated -->
-                <div class="bg-white rounded mt-5" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                <div class="bg-white rounded" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
                     <div class="row">
                         <div class="col">
-                            <div id="main">
+                            <div class="mb-3" id="main">
 
                             </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
-        <div class="col-md-2 col-md-offset-1">
-            <div class="rounded p-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-                <h3 class="text-center">Color Coding</h3>
+        <div class="col-md-2">
+            <div class="bg-white rounded pl-3 pr-3 pb-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                <h1 class="text-center customfont">Loot Generator</h1>
                 <hr>
-                <p>Below is a list defining a rarity of an item going from weakest to greatest.</p>
-                <ul>
-                    <li>Common</li>
-                    <li style="text-shadow:1px 1px 20px limegreen, 0 0 25px limegreen, 0 0 15px lightblue" >Uncommon</li>
-                    <li style="text-shadow:1px 1px 20px blue, 0 0 25px blue, 0 0 15px lightblue">Rare</li>
-                    <li style="text-shadow:1px 1px 20px violet, 0 0 25px violet, 0 0 15px blue">Very Rare</li>
-                    <li style="text-shadow:1px 1px 20px orange, 0 0 25px orange, 0 0 15px orange">Legendary</li>
-                </ul>
+                <div class="d-flex flex-column">
+                    <div>
+                        Number of items to generate <select class="form-control" id="ddlContainerList">
+                            <option value="4">4</option>
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                            <option value="10" selected="selected">10</option>
+                            <option value="12">12</option>
+                            <option value="20">20</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div>
+                        CR Rating <select id="ddlTableCR" class="form-control">
+                            <option value="0"> CR 0 </option>
+                            <option value="1/8"> CR 1/8 </option>
+                            <option value="1/4"> CR 1/4 </option>
+                            <option value="1/2"> CR 1/2 </option>
+                            <option value="1"> CR 1 </option>
+                            <option value="2"> CR 2 </option>
+                            <option value="3"> CR 3 </option>
+                            <option value="4"> CR 4 </option>
+                            <option value="5"> CR 5 </option>
+                            <option value="6"> CR 6 </option>
+                            <option value="7"> CR 7 </option>
+                            <option value="8"> CR 8 </option>
+                            <option value="9"> CR 9 </option>
+                            <option value="10"> CR 10 </option>
+                            <option value="11"> CR 11 </option>
+                            <option value="12"> CR 12 </option>
+                            <option value="13"> CR 13 </option>
+                            <option value="14"> CR 14 </option>
+                            <option value="15"> CR 15 </option>
+                            <option value="16"> CR 16 </option>
+                            <option value="17"> CR 17 </option>
+                            <option value="18"> CR 18 </option>
+                            <option value="19"> CR 19 </option>
+                            <option value="20"> CR 20 </option>
+                            <option value="20+"> CR 20+ </option>
+                        </select>
+                    </div>
+                    <div>
+                        Container Type: <select class="form-control" id="ddlContainerList">
+                            <option value="Bag">Bag</option>
+                            <option value="Box">Box</option>
+                            <option value="Crate">Crate</option>
+                            <option value="Chest" selected="selected">Chest</option>
+                            <option value="Backpack">Backpack</option>
+                            <option value="Pouch">Pouch</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
     <div class="row">
 
@@ -381,6 +398,9 @@ $DB = new DBHelper();
             var gear = "";
             var foodndrink = "";
             var qual = "";
+            var container = getContainerInfo();
+
+
 
             for(var property in dbInTheChest)
             {
@@ -773,7 +793,9 @@ $DB = new DBHelper();
             }
 
             //style="border-style: solid; border-color: black; border-width: 3px;"
-
+            //d-flex flex-column
+            //<div class="count">8</div>
+            //<p class="text-center mb-0"id="communityRating">57</p>
             // html
             var html = '<div class="container-fluid mt-3" id="container-"' + V + '>\n' +
                 '    <div class=" shadow-lg container bg-white rounded border border-dark" >\n' +
@@ -782,10 +804,19 @@ $DB = new DBHelper();
                 '                <h3 id="rowHeader">' + V + '.)</h3>\n' +
                 '            </div>\n' +
                 '            <div class="col-9 rounded border border-top-0 border-bottom-0 border-dark">\n' +
-                '                <div class="row pt-3" style="background-color: Gray">\n' +
-                '                    <div class="col-8">\n' +
-                '                        <h2 id="chestTitle">Chest of the Dead</h2>\n' +
-                '                        <p id="chestDescription">Here is a description of this dreadful chest. It is very dark and spoopy, no one in their right mind would touch this chest.</p>\n' +
+                '                <div class="row pt-3">\n' +
+                '                    <div class="col-8 border border-top-0 border-left-0 border-bottom-0 border-dark">\n' +
+                '                         <div class="d-flex">\n'+
+                '                                   <div>\n'+
+                '                                        <h2 id="containerTitle">' + container[0].Prefix + " " + container[0].Container + '</h2>\n' +
+                '                                        <p id="containerDescription">' + container[0].Description + '</p>\n' +
+                '                                   </div>\n'+
+                '                                   <div class="d-flex flex-column vote circle">\n'+
+                '                                        <div class="increment vote up"></div>\n' +
+                '                                        <div class="increment vote circle down"></div>\n' +
+                '                                        <div class="count">8</div>\n'+
+                '                                   </div>\n'+
+                '                         </div>\n'+
                 '                    </div>\n' +
                 '                    <div class="col-4 d-flex flex-column align-items-end">\n' +
                 '                        <h5 id="skillLockpicking">(Dex) Lock Picking<strong> DC: 18</strong></h5>\n' +
@@ -813,6 +844,8 @@ $DB = new DBHelper();
                 '</div>';
 
             $("#main").append(html);
+
+
         }
     }
 
@@ -1024,6 +1057,23 @@ $DB = new DBHelper();
         }
         return dist;
     }
+    function getContainerInfo()
+    {
+        var tmp =null;
+        $.ajax({
+            method: "post",
+            url: "../LootGenerator/Ajax/getContainerDescriptions.php",
+            data: {tableName: ""},
+            async: false,
+            success:function(data)
+            {
+                var max =  JSON.parse(data);
+                tmp = max;
+
+            }
+        });
+        return tmp;
+    }
     function setRarity(rarity, item)
     {
         var text = "";
@@ -1033,7 +1083,7 @@ $DB = new DBHelper();
         }
         else if (rarity == "Rare")
         {
-             text = "<li style='text-shadow:1px 1px 20px blue, 0 0 25px blue, 0 0 10px lightblue' >" + item + "</li>";
+             text = "<li style='text-shadow:1px 1px 20px #0070dd, 0 0 25px #0070dd, 0 0 10px #0070dd' >" + item + "</li>";
         }
         else if (rarity == "Very Rare")
         {

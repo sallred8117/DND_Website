@@ -5,7 +5,81 @@ body {
     width: 100%;
 }
 
-.parchment {
-    box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;
-    background-image: url('../../img/parchment.jpg');
+
+@font-face {
+    font-family: "My Custom Font";
+    src: url(../fonts/Vecna_Bold.otf) format("truetype");
 }
+.customfont {
+    font-family: "My Custom Font", Verdana, Tahoma;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic);
+/* try 50% */
+.circle .up {
+    border-radius: 10rem 10rem 0 0;
+}
+.circle .down {
+    border-radius: 0 0 10rem 10rem;
+}
+.circle .count {
+    border-radius: 50%;
+}
+.vote {
+    display: flex;
+    flex-direction: column;
+    font-family: "Noto Sans";
+    position: relative;
+    width: 4rem;
+    height: 6rem;
+    margin: 1rem;
+}
+.increment {
+    flex: 1 0 0;
+    text-align: center;
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.increment.up {
+
+    background-image: url("../img/d20_colored.png");
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position:  center top;
+    margin-bottom: 0.25rem;
+}
+.increment.down {
+    background-image: url("../img/d20_colored.png");
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position:  center bottom;
+    margin-top: 0.25rem
+}
+.increment:hover {
+    opacity: 1;
+}
+.count {
+    position: absolute;
+    top: 0;
+    border-radius: 0.1rem;
+    margin: 2rem;
+
+    width: 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 2rem;
+    text-align: center;
+
+    pointer-events: none;
+}
+.count.upvoted {
+    color: #4bc35f;
+}
+.count.downvoted {
+    color: #c15044;
+}
+* {
+    box-sizing: border-box;
+}
+
