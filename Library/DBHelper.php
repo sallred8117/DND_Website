@@ -367,32 +367,12 @@ class DBHelper
         return $listdbtables;
     }
 
-    function SELECT_RANDOM_CONTAINER()
+    function SELECT_RANDOM_CONTAINER($option = null)
     {
-        $this->SWITCH_DB("containers");
-        $conn = $this->getMysqliConnection();
-        $data = array();
 
-        // Check connection
-        if ($conn->connect_error)
-        {
-            die("Connection failed: " . $conn->connect_error);
-        }
 
-            $sql = "SELECT Prefix,(SELECT object FROM type ORDER BY RAND() LIMIT 1) AS Container, Description FROM container_descriptions ORDER BY RAND() LIMIT 1;";
 
-        $result = $conn->query($sql);
 
-        if ($result->num_rows > 0)
-        {
-            // output data of each row, there is only one though
-            while($row = $result->fetch_assoc())
-            {
-                array_push($data, $row);
-            }
-        }
-        $conn->close();
-        return $data;
 
     }
     function UPDATE_TABLE($database, $table, $data)
