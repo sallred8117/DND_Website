@@ -213,7 +213,7 @@ class DBHelper
 
         $sql = "SELECT * FROM $table ORDER BY RAND() LIMIT 1";
         $result = $conn->query($sql);
-		
+
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though
@@ -242,9 +242,9 @@ class DBHelper
 		{
 			$sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' ORDER BY RAND() LIMIT " . $limit;
 		}
-        
+
         $result = $conn->query($sql);
-		
+
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though
@@ -273,9 +273,9 @@ class DBHelper
 		{
 			$sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare'  ORDER BY RAND() LIMIT " . $limit;
 		}
-        
+
         $result = $conn->query($sql);
-		
+
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though
@@ -304,9 +304,9 @@ class DBHelper
 		{
 			$sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare' OR Rarity = 'Very Rare'  ORDER BY RAND() LIMIT " . $limit;
 		}
-        
+
         $result = $conn->query($sql);
-		
+
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though
@@ -335,9 +335,9 @@ class DBHelper
 		{
 			$sql = "SELECT * FROM `magic_items` WHERE Rarity = 'Uncommon' OR Rarity = 'Common' OR Rarity = 'Rare' OR Rarity = 'Very Rare' OR Rarity = 'Legendary' ORDER BY RAND() LIMIT " . $limit;
 		}
-        
+
         $result = $conn->query($sql);
-		
+
         if ($result->num_rows > 0)
         {
             // output data of each row, there is only one though
@@ -367,33 +367,27 @@ class DBHelper
         return $listdbtables;
     }
 
-    function SELECT_RANDOM_CONTAINER($option = null)
+    function SELECT_RANDOM_CONTAINER()
     {
-        $this->SWITCH_DB("containers");
+
         $conn = $this->getMysqliConnection();
         $data = array();
 
-        // Check connection
-        if ($conn->connect_error)
+
+
+        $sql = "SELECT Prefix,(SELECT object FROM containertype ORDER BY RAND() LIMIT 1) AS Container, Description FROM container_descriptions ORDER BY RAND() LIMIT 1;";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0)
         {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-
-            $sql = "SELECT Prefix,(SELECT object FROM type ORDER BY RAND() LIMIT 1) AS Container, Description FROM container_descriptions ORDER BY RAND() LIMIT 1;";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0)
+            // output data of each row, there is only one though
+            while($row = $result->fetch_assoc())
             {
-                // output data of each row, there is only one though
-                while($row = $result->fetch_assoc())
-                {
-                    array_push($data, $row);
-                }
+                array_push($data, $row);
             }
-            $conn->close();
-            return $data;
-
+        }
+        $conn->close();
+        return $data;
 
 
 

@@ -398,10 +398,10 @@ $DB = new DBHelper();
             var gear = "";
             var foodndrink = "";
             var qual = "";
+            var container = getContainerInfo();
+            console.log(container);
 
 
-                console.log('Container not set');
-                var container = getContainerInfo(document.getElementById("ddlContainerList").value);
 
 
 
@@ -1071,13 +1071,13 @@ $DB = new DBHelper();
         }
         return dist;
     }
-    function getContainerInfo(container = "OPTIONAL")
+    function getContainerInfo()
     {
         var tmp =null;
         $.ajax({
             method: "post",
             url: "../LootGenerator/Ajax/getContainerDescriptions.php",
-            data: {selectedContainer: container},
+            data: "",
             async: false,
             success:function(data)
             {
