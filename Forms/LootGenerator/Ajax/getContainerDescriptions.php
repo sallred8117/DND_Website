@@ -10,6 +10,6 @@ require "../../../Library/DBHelper.php";
     $DB = new DBHelper();
 
     // Getting rows from table
-    $rows = $DB->SELECT_RANDOM_CONTAINER();
+    $rows = $DB->SELECT_RANDOM_CONTAINER("Chest");
 	//echo $rows;
     echo json_encode($rows);
