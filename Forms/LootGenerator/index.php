@@ -72,7 +72,7 @@ $DB = new DBHelper();
                 <hr>
                 <div class="d-flex flex-column">
                     <div>
-                        Number of items to generate <select class="form-control" id="ddlContainerList">
+                        Number of items to generate <select class="form-control" id="ddlItemsList">
                             <option value="4">4</option>
                             <option value="6">6</option>
                             <option value="8">8</option>
@@ -383,7 +383,7 @@ $DB = new DBHelper();
         // Load the data table
         //getTable();
         // getList();
-        var sizer = $("#ddlContainerList option:selected").text();
+        var sizer = $("#ddlItemsList option:selected").text();
         document.getElementById("headerTitle").style.display = "block";
 
         sizer++; // Stupid javascript
@@ -398,7 +398,11 @@ $DB = new DBHelper();
             var gear = "";
             var foodndrink = "";
             var qual = "";
-            var container = getContainerInfo();
+
+
+                console.log('Container not set');
+                var container = getContainerInfo(document.getElementById("ddlContainerList").value);
+
 
 
 
@@ -867,6 +871,16 @@ $DB = new DBHelper();
         executeCode();
 
     });
+    $("#ddlContainerList").change(function()
+    {
+        // Clear content on main
+        $("#main").empty();
+
+        // Execute
+        executeCode();
+
+    });
+
     // WHen the table is changed, load the data table
     $("#ddlTable").change(function(){
 
@@ -1057,13 +1071,13 @@ $DB = new DBHelper();
         }
         return dist;
     }
-    function getContainerInfo()
+    function getContainerInfo(container = "OPTIONAL")
     {
         var tmp =null;
         $.ajax({
             method: "post",
             url: "../LootGenerator/Ajax/getContainerDescriptions.php",
-            data: {tableName: ""},
+            data: {selectedContainer: container},
             async: false,
             success:function(data)
             {
