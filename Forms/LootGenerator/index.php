@@ -338,6 +338,7 @@ $DB = new DBHelper();
 
     }
 
+    // VCS CAN BE MEAN SOMETIMES
     function rollRandom(dice)
     {
         if(dice == "d100")
