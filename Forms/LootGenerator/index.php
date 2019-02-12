@@ -113,13 +113,29 @@ $DB = new DBHelper();
                     </div>
                     <div>
                         Container Type: <select class="form-control" id="ddlContainerList">
+                            <option value="" selected="selected">--</option>
                             <option value="Bag">Bag</option>
                             <option value="Box">Box</option>
                             <option value="Crate">Crate</option>
-                            <option value="Chest" selected="selected">Chest</option>
+                            <option value="Chest">Chest</option>
                             <option value="Backpack">Backpack</option>
                             <option value="Pouch">Pouch</option>
                         </select>
+                    </div>
+                    <div>
+                        Prefix: <select class="form-control" id="ddlPrefixList">
+                            <option value="" selected="selected">--</option>
+                             <?php
+                            $prefixes = $DB->SELECT_CONTAINER_PREFIXES();
+
+                            foreach($prefixes as $prefix)
+                            {
+
+                                    echo "<option value='$prefix[0]'>$prefix[0]</option>";
+
+                            }?>
+                        </select>
+
                     </div>
                 </div>
             </div>
@@ -400,6 +416,7 @@ $DB = new DBHelper();
             var foodndrink = "";
             var qual = "";
             var container = getContainerInfo();
+            console.log("BEFORE");
             console.log(container);
 
 
@@ -813,8 +830,8 @@ $DB = new DBHelper();
                 '                    <div class="col-8 border border-top-0 border-left-0 border-bottom-0 border-dark">\n' +
                 '                         <div class="d-flex">\n'+
                 '                                   <div>\n'+
-                '                                        <h2 id="containerTitle">' + container[0].Prefix + " " + container[0].Container + '</h2>\n' +
-                '                                        <p id="containerDescription">' + container[0].Description + '</p>\n' +
+                '                                        <h2 id="containerTitle">' + container.Prefix + " " + container.Container + '</h2>\n' +
+                '                                        <p id="containerDescription">' + container.Description + '</p>\n' +
                 '                                   </div>\n'+
                 '                                   <div class="d-flex flex-column vote circle">\n'+
                 '                                        <div class="increment vote up"></div>\n' +
@@ -873,6 +890,15 @@ $DB = new DBHelper();
 
     });
     $("#ddlContainerList").change(function()
+    {
+        // Clear content on main
+        $("#main").empty();
+
+        // Execute
+        executeCode();
+
+    });
+    $("#ddlPrefixList").change(function()
     {
         // Clear content on main
         $("#main").empty();

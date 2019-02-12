@@ -39,12 +39,11 @@ $DB = new DBHelper();
                     <select id="ddlBases" class="form-control">
                         <?php
                         $databases = $DB->GET_ALL_DATABASES();
-
                         foreach($databases as $database)
                         {
-                            if($database !== "information_schema" && $database !== "performance_schema" && $database !== "phpmyadmin" && $database !== "mysql")
+                            if($database[0] !== "information_schema" && $database[0] !== "performance_schema" && $database[0] !== "phpmyadmin" && $database[0] !== "mysql")
                             {
-                                echo "<option value='$database'>$database</option>";
+                                echo "<option value='$database[0]'>$database[0]</option>";
                             }
                         }
                         ?></select>
@@ -116,8 +115,12 @@ $DB = new DBHelper();
             url: "./table_processing.php",
             data: {database: database},
             success: function (data) {
+                console.log(data);
                 var selectValues = JSON.parse(data);
+                console.log(selectValues);
                 $.each(selectValues, function(key, value) {
+                    console.log(key);
+                    console.log(value);
                     $('#ddlTable')
                         .append($("<option></option>")
                             .attr("value",value)

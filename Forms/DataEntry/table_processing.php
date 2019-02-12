@@ -15,7 +15,6 @@ if(isset($_POST["tableName"]) && isset($_POST["database"]))
 
     $DB = new DBHelper();
     $DB->SWITCH_DB($database);
-
     // Getting rows from table
     $rows = $DB->SELECT_ALL($tableName);
 	//var_dump($rows);
@@ -30,6 +29,7 @@ else if(isset($_POST["database"]))
     $database = $_POST["database"];
 
     $DB = new DBHelper();
+
     $DB->SWITCH_DB($database);
 
     // Getting rows

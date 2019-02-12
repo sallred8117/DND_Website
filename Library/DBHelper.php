@@ -103,6 +103,19 @@ class DBHelper
         $this->setConn(null);
     }
 
+    function SWITCH_DB($database)
+    {
+        if($database == null || $database == "")
+            $this->getConn()->exec('USE ' . self::$maindb);
+
+        if($database != null && $database != "")
+        {
+            $this->getConn()->exec('USE ' . $database);
+            return true;
+        }
+        return false;
+    }
+
     public function getMysqliConnection()
     {
         return $db = new mysqli($this->host, $this->user, $this->pwd, $this->maindb);
@@ -119,13 +132,13 @@ class DBHelper
      * Parameter(s):
      *$collection (string) - db parameter name (such as bluchermaps, greenmaps)
      * Return value(s): true if success, false if error occurs
-     ***********************************************/
+     ***********************************************
     public function SWITCH_DB($database)
     {
         $this->maindb = $database;
         mysqli_select_db($this->getMysqliConnection(), $database);
     }
-
+    */
     /**********************************************
      * Function: SP_GET_COLLECTION_CONFIG (SP_GET_COLLECTION_DATA)
      * Description: Pulls the data associated with the collection name passed in.
@@ -161,45 +174,32 @@ class DBHelper
     {
         // Change to the correct DB first
         $this->SWITCH_DB($database);
-        $conn = $this->getMysqliConnection();
+        $sth = $this->getConn()->query('SHOW TABLES');
+        $sth->execute();
+        $result = $sth->fetchAll(PDO::FETCH_NUM);
+        return $result;
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
 
-        $sql = "SHOW TABLES";
 
-        $listdbtables = array_column(mysqli_fetch_all($conn->query('SHOW TABLES')),0);
-
-        $conn->close();
-        return $listdbtables;
     }
 
     function SELECT_ALL($table)
     {
-        $conn = $this->getMysqliConnection();
-        $data = array();
+        $this->getConn()->exec('USE' . $this->maindb);
+        $sth = $this->getConn()->prepare("SELECT * FROM " . $table);
+        $sth->execute();
+        $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    function GET_ALL_DATABASES()
+    {
+        //SELECT * FROM sys.databases
+        $this->getConn()->exec('USE' . $this->maindb);
+        $sth = $this->getConn()->query('SHOW DATABASES');
+        $sth->execute();
+        $result = $sth->fetchAll(PDO::FETCH_NUM);
+        return $result;
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $sql = "SELECT * FROM $table";
-
-        $result = $conn->query($sql) or trigger_error(mysqli_error($conn) . " " . $sql);
-
-        if ($result->num_rows > 0)
-        {
-            // output data of each row, there is only one though
-            while($row = $result->fetch_assoc())
-            {
-                array_push($data, $row);
-            }
-        }
-        $conn->close();
-        return $data;
     }
 	function SELECT_ONE_ITEM_FROM_TABLE($table)
     {
@@ -350,54 +350,33 @@ class DBHelper
         return $data;
     }
 
-    function GET_ALL_DATABASES()
-    {
-        //SELECT * FROM sys.databases
-        $conn = $this->getMysqliConnectionServer();
-        $data = array();
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $listdbtables = array_column(mysqli_fetch_all($conn->query('SHOW DATABASES')),0);
-
-        $conn->close();
-        return $listdbtables;
-    }
 
     function SELECT_RANDOM_CONTAINER($container)
     {
         $this->SWITCH_DB("containers");
-        $conn = $this->getMysqliConnection();
-        $data = array();
 
-        // Check connection
-        if ($conn->connect_error)
-        {
-            die("Connection failed: " . $conn->connect_error);
-        }
 
-        $sql = 'SELECT Prefix,(SELECT object FROM type WHERE object = "' . $container . '") AS Container, Description FROM container_descriptions ORDER BY RAND() LIMIT 1';
+        $sth = $this->getConn()->prepare("SELECT `Prefix`,(SELECT `object` FROM `containertype` WHERE `object` = :container) AS Container, `Description` FROM `container_descriptions` ORDER BY RAND() LIMIT 1");
+        $sth->bindParam(':container', $container, PDO::PARAM_STR);
+        $sth->execute();
 
-        $result = $conn->query($sql);
+        $result = $sth->fetch(PDO::FETCH_ASSOC);
 
-        if($result === false)
-        {
-            echo "No records have returned.";
-        }
+        return $result;
+    }
+    function SELECT_CONTAINER_PREFIXES()
+    {
+        $this->SWITCH_DB("containers");
 
-        else if ($result->num_rows > 0)
-        {
-            // output data of each row, there is only one though
-            while($row = $result->fetch_assoc())
-            {
-                array_push($data, $row);
-            }
-        }
-        $conn->close();
-        return $data;
+
+        $sth = $this->getConn()->prepare("SELECT  Prefix FROM container_descriptions");
+
+        $sth->execute();
+
+        $result = $sth->fetchAll(PDO::FETCH_NUM);
+
+        return $result;
     }
     function UPDATE_TABLE($database, $table, $data)
     {
