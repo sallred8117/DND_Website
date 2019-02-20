@@ -352,16 +352,49 @@ class DBHelper
 
 
 
-    function SELECT_RANDOM_CONTAINER($container)
+    function SELECT_RANDOM_CONTAINER($container = null, $prefix = null)
+    {
+        $this->SWITCH_DB("containers");
+
+        if(($container != null || $container != "") && ($prefix != null || $prefix != ""))
+        {
+            $sth = $this->getConn()->prepare("SELECT `Prefix`,(SELECT `object` FROM `containertype` WHERE `object` = :container) AS Container, `Description` FROM `container_descriptions` WHERE `Prefix` = :prefix");
+            $sth->bindParam(':prefix', $prefix, PDO::PARAM_STR);
+            $sth->bindParam(':container', $container, PDO::PARAM_STR);
+        }
+        elseif(($container != null || $container != "") && ($prefix == null || $prefix == ""))
+        {
+            $sth = $this->getConn()->prepare("SELECT `Prefix`,(SELECT `object` FROM `containertype` WHERE `object` = :container) AS Container, `Description` FROM `container_descriptions` ORDER BY RAND() LIMIT 1");
+            $sth->bindParam(':container', $container, PDO::PARAM_STR);
+        }
+        elseif(($container == null || $container == "") && ($prefix != null || $prefix != ""))
+        {
+            $sth = $this->getConn()->prepare("SELECT `Prefix`,(SELECT `object` FROM `containertype` ORDER BY RAND() LIMIT 1) AS Container, `Description` FROM `container_descriptions` WHERE `Prefix` = :prefix");
+            $sth->bindParam(':prefix', $prefix, PDO::PARAM_STR);
+        }
+        else
+        {
+            $sth = $this->getConn()->prepare("SELECT `Prefix`,(SELECT `object` FROM `containertype` ORDER BY RAND() LIMIT 1 ) AS Container, `Description` FROM `container_descriptions` ORDER BY RAND() LIMIT 1");
+        }
+
+
+
+        $sth->execute();
+
+        $result = $sth->fetch(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+    function SELECT_CONTAINER_TYPES()
     {
         $this->SWITCH_DB("containers");
 
 
-        $sth = $this->getConn()->prepare("SELECT `Prefix`,(SELECT `object` FROM `containertype` WHERE `object` = :container) AS Container, `Description` FROM `container_descriptions` ORDER BY RAND() LIMIT 1");
-        $sth->bindParam(':container', $container, PDO::PARAM_STR);
+        $sth = $this->getConn()->prepare("SELECT  Object FROM containertype");
+
         $sth->execute();
 
-        $result = $sth->fetch(PDO::FETCH_ASSOC);
+        $result = $sth->fetchAll(PDO::FETCH_NUM);
 
         return $result;
     }

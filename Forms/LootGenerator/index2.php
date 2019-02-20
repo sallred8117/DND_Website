@@ -25,159 +25,39 @@ $DB = new DBHelper();
 
 <!-- Whole Page -->
 <div class="container-fluid pl-5 pt-5 pr-5" >
-    <div class="row mt-3">
+    <div class="row mt-1">
         <div class="col-md-2s">
-            <div class="bg-white rounded pl-3 pr-3 pb-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-                <h1 class="text-center customfont">Loot Generator</h1>
-                <hr>
-                <div class="d-flex flex-column">
+            <div class="bg-white rounded pt-3 pl-3 pr-3 pb-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+                <div class="d-flex  shadow-lg container bg-white rounded border border-dark">
                     <div>
-                        Number of items to generate <select class="form-control" id="ddlItemsList">
-                            <option value="4">4</option>
-                            <option value="6">6</option>
-                            <option value="8">8</option>
-                            <option value="10" selected="selected">10</option>
-                            <option value="12">12</option>
-                            <option value="20">20</option>
-                            <option value="100">100</option>
-                        </select>
+                        <h2 id="containerTitle">MOLDY BACKPACK </h2>
+                        <p id="containerDescription">This container is pretty moldy</p>
                     </div>
-                    <div>
-                        DC Difficulty <select class="form-control" id="ddlDCList">
-                            <option value="" selected="selected">--</option>
-                            <option value="5">Very Easy</option>
-                            <option value="10">Easy</option>
-                            <option value="15">Moderate</option>
-                            <option value="20">Hard</option>
-                            <option value="25">Very Hard</option>
-                            <option value="30">Near Impossible</option>
-
-                        </select>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Scale DC to CR rating
-                        </label>
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                        <label class="form-check-label" for="defaultCheck2">
-                            Add varience to DC
-                        </label>
-                    </div>
-                    <div>
-                        CR Rating <select id="ddlTableCR" class="form-control">
-                            <option value="0"> CR 0 </option>
-                            <option value="1/8"> CR 1/8 </option>
-                            <option value="1/4"> CR 1/4 </option>
-                            <option value="1/2"> CR 1/2 </option>
-                            <option value="1"> CR 1 </option>
-                            <option value="2"> CR 2 </option>
-                            <option value="3"> CR 3 </option>
-                            <option value="4"> CR 4 </option>
-                            <option value="5"> CR 5 </option>
-                            <option value="6"> CR 6 </option>
-                            <option value="7"> CR 7 </option>
-                            <option value="8"> CR 8 </option>
-                            <option value="9"> CR 9 </option>
-                            <option value="10"> CR 10 </option>
-                            <option value="11"> CR 11 </option>
-                            <option value="12"> CR 12 </option>
-                            <option value="13"> CR 13 </option>
-                            <option value="14"> CR 14 </option>
-                            <option value="15"> CR 15 </option>
-                            <option value="16"> CR 16 </option>
-                            <option value="17"> CR 17 </option>
-                            <option value="18"> CR 18 </option>
-                            <option value="19"> CR 19 </option>
-                            <option value="20"> CR 20 </option>
-                            <option value="20+"> CR 20+ </option>
-                        </select>
-                    </div>
-                    <div>
-                        Prefix: <select class="form-control" id="ddlPrefixList">
-                            <option value="" selected="selected">--</option>
-                            <?php
-                            $prefixes = $DB->SELECT_CONTAINER_PREFIXES();
-
-                            foreach($prefixes as $prefix)
-                            {
-
-                                echo "<option value='$prefix[0]'>$prefix[0]</option>";
-
-                            }?>
-                        </select>
-
-                    </div>
-                    <div>
-                        Container Type: <select class="form-control" id="ddlContainerList">
-                            <option value="" selected="selected">--</option>
-                            <?php
-                            $types = $DB->SELECT_CONTAINER_TYPES();
-
-                            foreach($types as $type)
-                            {
-
-                                echo "<option value='$type[0]'>$type[0]</option>";
-
-                            }?>
-                        </select>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <button id="btnAdvancedSearch"type="button" class="btn btn-primary">Submit</button>
+                    <div class="d-flex flex-column vote circle">
+                        <div class="increment vote up"></div>
+                        <div class="increment vote circle down"></div>
+                        <div class="count">8</div>
                     </div>
                 </div>
-
-
             </div>
 
         </div>
-
-
-        <div class="col">
-            <div class="container-fluid">
-
-                <!-- Stuff that is generated -->
-                <div class="bg-white rounded" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3" id="main">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+        <div class="bg-white rounded pt-3 ml-2 pl-1 pr-1 pb-3 w-75" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
+            <div class="d-flex  shadow-lg container bg-white rounded border border-dark">
+                <ul class="list-group w-100">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Morbi leo risus</li>
+                    <li class="list-group-item">Porta ac consectetur ac</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
             </div>
         </div>
-        <div class="col-md-2">
-
-                <div class="rounded p-3" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-                    <h3 class="text-center customfont">How it Works</h3>
-                    <hr>
-                    <p>Select the CR level of the chests you wish to generate. If your party rolls well the chest may contain a magical item that is classed one rarity level above the recommended CR rating!</p>
-                </div>
-
-                <div class="rounded p-3 mt-5" style="box-shadow:1px 1px 20px black, 0 0 25px black, 0 0 15px black;  background-image: url('../../img/parchment.jpg');">
-                    <h3 class="text-center customfont">Color Coding</h3>
-                    <hr>
-                    <p>Below is a list defining a rarity of an item going from weakest to greatest.</p>
-                    <ul>
-                        <li>Common</li>
-                        <li style="text-shadow:1px 1px 20px limegreen, 0 0 25px limegreen, 0 0 15px lightblue" >Uncommon</li>
-                        <li style="text-shadow:1px 1px 20px #0070dd, 0 0 25px #0070dd, 0 0 15px #0070dd">Rare</li>
-                        <li style="text-shadow:1px 1px 20px violet, 0 0 25px violet, 0 0 15px blue">Very Rare</li>
-                        <li style="text-shadow:1px 1px 20px orange, 0 0 25px orange, 0 0 15px orange">Legendary</li>
-                    </ul>
-                </div>
-
-        </div>
-
-    </div>
-    <div class="row">
-
-    </div>
 </div>
 
 <!-- This is where Generated Loot Goes -->
