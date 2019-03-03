@@ -1,0 +1,7 @@
+; Simple DND Website configuration file
+
+; Be sure to replace username and password w/ appropriate values
+servername = localhost
+username = "username"
+password = "password"
+dbname =  equipment

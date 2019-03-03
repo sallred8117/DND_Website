@@ -16,7 +16,8 @@ Return value(s):
 class DBHelper
 {
     //Members
-    static protected $ini_dir = "dnd_website_config\\dnd_website.ini";
+    // https://dev.to/c33s/always-use--as-directory-seperator-in-php-43l7
+    static protected $ini_dir = "dnd_website_config/dnd_website.ini";
     protected $host;
     protected $user;
     protected $pwd;
@@ -27,6 +28,9 @@ class DBHelper
     function __construct()
     {
         $root = substr(getcwd(), 0, strpos(getcwd(), "htdocs\\")); //point to xampp// directory
+        if (php_uname('s') == 'Linux') {
+            $root = dirname(__FILE__) . '/../';
+        }
         $config = parse_ini_file($root . DBHelper::$ini_dir);
         $this->host = $config['servername'];
         $this->user = $config['username'];
