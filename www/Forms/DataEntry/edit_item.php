@@ -5,7 +5,7 @@
  * Date: 2/2/2019
  * Time: 5:39 PM
  */
-include "../../Library/DBHelper.php";
+include "../../../Library/DBHelper.php";
 $DB = new DBHelper();
 
 $strRequest = file_get_contents('php://input');

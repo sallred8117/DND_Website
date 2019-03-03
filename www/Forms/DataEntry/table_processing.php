@@ -5,7 +5,7 @@
  * Date: 1/9/2019
  * Time: 11:04 AM
  */
-require "../../Library/DBHelper.php";
+require "../../../Library/DBHelper.php";
 
 if(isset($_POST["tableName"]) && isset($_POST["database"]))
 {

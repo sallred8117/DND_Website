@@ -5,7 +5,7 @@
  * Date: 1/15/2019
  * Time: 1:07 PM
  */
-require "../../Library/DBHelper.php";
+require "../../../Library/DBHelper.php";
 $DB = new DBHelper();
 ?>
 <!DOCTYPE html>

@@ -5,7 +5,7 @@
  * Date: 1/10/2019
  * Time: 12:07 PM
  */
-require "../Library/DBHelper.php";
+require "../../Library/DBHelper.php";
 
 if(isset($_POST["rows"]) && isset($_POST["cols"]))
 {
